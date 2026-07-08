@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trispy Cheats</title>
+    <style>
+        /* CSS Styling to make it look professional */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        #app {
+            width: 100%;
+            max-width: 400px;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            width: 85%;
+            padding: 10px;
+            background-color: #ff007f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #resultArea {
+            margin-top: 20px;
+            padding: 10px;
+            text-align: left;
+            white-space: pre-wrap;
+            background: #333;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Get Best Sensitivity</h1>
+        <input type="text" id="deviceInput" placeholder="Enter phone model (e.g., iPhone 17)">
+        <button onclick="getSensitivity()">Get Sensi</button>
+        <div id="resultArea">Waiting for input...</div>
+    </div>
+
+    <script>
+        async function getSensitivity() {
+            const device = document.getElementById('deviceInput').value;
+            const resultArea = document.getElementById('resultArea');
+
+            if (!device) {
+                alert("Please enter a device name.");
+                return;
+            }
+
+            resultArea.innerText = "Loading...";
+
+            try {
+                // Ensure this matches your API route name
+                const response = await fetch(`/api/get-sensi?device=${encodeURIComponent(device)}`);
+                const data = await response.json();
+
+                if (data.result) {
+                    resultArea.innerText = data.result;
+                } else {
+                    resultArea.innerText = "Error: " + (data.error || "Could not fetch settings.");
+                }
+            } catch (err) {
+                resultArea.innerText = "Failed to connect to the server.";
+            }
+        }
+    </script>
+</body>
+</html>
