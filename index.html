@@ -3,84 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trispy Cheats</title>
+    <title>Tripsy Cheats - Premium Sensi</title>
     <style>
-        /* CSS Styling to make it look professional */
+        /* Base Styles */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: white;
+            background-color: #0b0b0c;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
             display: flex;
-            justify-content: center;
-            padding: 20px;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
-        #app {
+
+        /* Header & Logo */
+        header {
             width: 100%;
-            max-width: 400px;
-            background: #1e1e1e;
-            padding: 20px;
-            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ff007f;
+            box-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
+        }
+        .brand-name {
+            margin-left: 12px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 450px;
+            margin-top: 40px;
+            background: #16161a;
+            padding: 30px 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             text-align: center;
         }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #ffffff;
+        }
+        h1 span {
+            color: #ff007f;
+        }
+
+        /* Input & Button */
+        .input-group {
+            margin-bottom: 20px;
+        }
         input {
-            width: 80%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: none;
+            width: 100%;
+            padding: 14px;
+            background: #222227;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input:focus {
+            border-color: #ff007f;
         }
         button {
-            width: 85%;
-            padding: 10px;
-            background-color: #ff007f;
+            width: 100%;
+            padding: 14px;
+            background: #ff007f;
             color: white;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 0, 127, 0.4);
+            transition: transform 0.1s, background 0.2s;
         }
+        button:active {
+            transform: scale(0.98);
+            background: #e60072;
+        }
+
+        /* Result Area */
         #resultArea {
-            margin-top: 20px;
-            padding: 10px;
+            margin-top: 25px;
+            padding: 15px;
+            background: #1f1f24;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #b5b5b5;
+            border-left: 4px solid #ff007f;
             text-align: left;
-            white-space: pre-wrap;
-            background: #333;
-            border-radius: 5px;
+            min-height: 40px;
+            line-height: 1.5;
+        }
+
+        /* Premium/Pro Section */
+        .pro-section {
+            margin-top: 30px;
+            background: linear-gradient(135deg, #2b1020 0%, #16161a 100%);
+            border: 1px solid rgba(255, 0, 127, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .pro-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ff007f;
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-bottom-left-radius: 8px;
+            text-transform: uppercase;
+        }
+        .pro-title {
+            font-size: 1.2rem;
+            color: #ff007f;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-align: left;
+        }
+        .pro-features {
+            text-align: left;
+            padding-left: 20px;
+            margin: 10px 0 0 0;
+            color: #d1d1d6;
+            font-size: 0.9rem;
+        }
+        .pro-features li {
+            margin-bottom: 6px;
         }
     </style>
 </head>
 <body>
-    <div id="app">
-        <h1>Get Best Sensitivity</h1>
-        <input type="text" id="deviceInput" placeholder="Enter phone model (e.g., iPhone 17)">
+
+    <header>
+        <img src="a2c88a8d.jpg" alt="Logo" class="logo" onerror="this.style.display='none';">
+        <div class="brand-name">Tripsy Cheats</div>
+    </header>
+
+    <div class="container">
+        <h1>Get Best <span>Sensitivity</span></h1>
+        
+        <div class="input-group">
+            <input type="text" id="deviceInput" placeholder="Enter phone model (e.g., iPhone 17)">
+        </div>
+        
         <button onclick="getSensitivity()">Get Sensi</button>
+        
         <div id="resultArea">Waiting for input...</div>
+
+        <div class="pro-section">
+            <span class="pro-badge">PRO</span>
+            <div class="pro-title">Premium Features Active</div>
+            <ul class="pro-features">
+                <li>Auto Headshot Config Enabled</li>
+                <li>Zero Recoil Sensitivity Calculations</li>
+                <li>High-Tier VIP Database Access</li>
+                <li>Ultra-Fast Server Responses</li>
+            </ul>
+        </div>
     </div>
 
     <script>
         async function getSensitivity() {
-            const device = document.getElementById('deviceInput').value;
+            const device = document.getElementById('deviceInput').value.trim();
             const resultArea = document.getElementById('resultArea');
 
             if (!device) {
-                alert("Please enter a device name.");
+                alert('Please enter a device name.');
                 return;
             }
 
-            resultArea.innerText = "Loading...";
+            resultArea.innerHTML = "<span style='color: #ff007f;'>Loading premium database...</span>";
 
             try {
-                // Ensure this matches your API route name
                 const response = await fetch(`/api/get-sensi?device=${encodeURIComponent(device)}`);
                 const data = await response.json();
 
                 if (data.result) {
-                    resultArea.innerText = data.result;
+                    // Prettify the output lines if they contain commas or newlines
+                    resultArea.innerHTML = data.result.replace(/\n/g, '<br>');
                 } else {
-                    resultArea.innerText = "Error: " + (data.error || "Could not fetch settings.");
+                    resultArea.innerHTML = "<span style='color: #ff3333;'>Error: " + (data.error || "Could not fetch settings.") + "</span>";
                 }
             } catch (err) {
-                resultArea.innerText = "Failed to connect to the server.";
+                resultArea.innerHTML = "<span style='color: #ff3333;'>Failed to connect to the server.</span>";
             }
         }
     </script>
