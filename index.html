@@ -1,218 +1,538 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tripsy Cheats - Premium Sensi</title>
-    <style>
-        /* Base Styles */
-        body {
-            background-color: #0b0b0c;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tripsy Cheats - Premium Sensi</title>
+<style>
+/* Base Styles */
+body {
+    margin: 0;
+    padding: 0;
+    background: #0b0b0c;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
 
-        /* Header & Logo */
-        header {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            box-sizing: border-box;
-            position: relative;
-        }
-        .logo {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #ff007f;
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
-        }
-        .brand-name {
-            margin-left: 12px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #ffffff;
-            letter-spacing: 1px;
-        }
+/* Premium Aesthetics */
+:root {
+    --primary-color: #ff007f;
+    --accent-color: #9d00ff;
+    --bg-dark: #121215;
+    --card-bg: #1c1c21;
+}
 
-        /* Main Container */
-        .container {
-            width: 90%;
-            max-width: 450px;
-            margin-top: 40px;
-            background: #16161a;
-            padding: 30px 20px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            text-align: center;
-        }
+/* --- Login Screen --- */
+#login-screen {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #000000, #1a0024);
+}
+.login-box {
+    background: var(--card-bg);
+    padding: 40px 30px;
+    border-radius: 15px;
+    border: 1px solid var(--accent-color);
+    box-shadow: 0 0 25px rgba(157, 0, 255, 0.4);
+    text-align: center;
+    width: 80%;
+    max-width: 350px;
+}
+.login-box h2 {
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.login-box input {
+    width: 90%;
+    padding: 14px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #0b0b0c;
+    color: #fff;
+    outline: none;
+    font-size: 15px;
+}
+.login-box button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.login-box button:hover {
+    opacity: 0.8;
+}
 
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-            color: #ffffff;
-        }
-        h1 span {
-            color: #ff007f;
-        }
+/* --- Main Application --- */
+#main-app {
+    display: none;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
-        /* Input & Button */
-        .input-group {
-            margin-bottom: 20px;
-        }
-        input {
-            width: 100%;
-            padding: 14px;
-            background: #222227;
-            border: 1px solid #333;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-        input:focus {
-            border-color: #ff007f;
-        }
-        button {
-            width: 100%;
-            padding: 14px;
-            background: #ff007f;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 0, 127, 0.4);
-            transition: transform 0.1s, background 0.2s;
-        }
-        button:active {
-            transform: scale(0.98);
-            background: #e60072;
-        }
+/* Header & Animated YT Icon */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #2a2a30;
+}
+header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: var(--primary-color);
+}
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+    50% { transform: scale(1.05); box-shadow: 0 0 10px 5px rgba(255, 0, 0, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+}
+.yt-icon {
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    background: red;
+    padding: 8px 12px;
+    border-radius: 20px;
+    animation: pulse 2s infinite;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
-        /* Result Area */
-        #resultArea {
-            margin-top: 25px;
-            padding: 15px;
-            background: #1f1f24;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            color: #b5b5b5;
-            border-left: 4px solid #ff007f;
-            text-align: left;
-            min-height: 40px;
-            line-height: 1.5;
-        }
+/* Navigation Tabs */
+.nav-tabs {
+    display: flex;
+    justify-content: space-between;
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 25px;
+}
+.nav-tabs button {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #888;
+    padding: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+.nav-tabs button.active {
+    background: var(--primary-color);
+    color: white;
+}
 
-        /* Premium/Pro Section */
-        .pro-section {
-            margin-top: 30px;
-            background: linear-gradient(135deg, #2b1020 0%, #16161a 100%);
-            border: 1px solid rgba(255, 0, 127, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        .pro-badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: #ff007f;
-            color: #fff;
-            font-size: 0.75rem;
-            font-weight: bold;
-            padding: 4px 12px;
-            border-bottom-left-radius: 8px;
-            text-transform: uppercase;
-        }
-        .pro-title {
-            font-size: 1.2rem;
-            color: #ff007f;
-            font-weight: bold;
-            margin-bottom: 8px;
-            text-align: left;
-        }
-        .pro-features {
-            text-align: left;
-            padding-left: 20px;
-            margin: 10px 0 0 0;
-            color: #d1d1d6;
-            font-size: 0.9rem;
-        }
-        .pro-features li {
-            margin-bottom: 6px;
-        }
-    </style>
+/* Tab Content */
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.4s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Home / AI Sensi */
+.ai-box {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #2a2a30;
+}
+.ai-box h3 { margin-top: 0; color: var(--accent-color); }
+.ai-box input {
+    width: 90%;
+    padding: 14px;
+    margin: 15px 0;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background: #000;
+    color: #fff;
+    font-size: 16px;
+}
+.ai-box button {
+    width: 98%;
+    padding: 14px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+#sensi-result {
+    margin-top: 20px;
+    padding: 15px;
+    background: #0b0b0c;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #00ffcc;
+    min-height: 80px;
+    text-align: left;
+    white-space: pre-wrap;
+    border: 1px solid #333;
+}
+
+/* Pro Section (YouTubers) */
+.pro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+.yt-card {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid var(--accent-color);
+    font-size: 13px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.yt-card h4 {
+    margin: 0 0 10px 0;
+    color: var(--primary-color);
+    font-size: 15px;
+}
+.yt-card p { margin: 4px 0; color: #ddd; }
+
+/* Settings Section */
+.setting-item {
+    background: var(--card-bg);
+    padding: 18px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #2a2a30;
+}
+.setting-item button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* --- Floating Feature Overlays --- */
+
+/* Crosshair / Mini Red Aim */
+#crosshair {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    display: none;
+    box-shadow: 0 0 5px red;
+}
+#crosshair::before, #crosshair::after {
+    content: '';
+    position: absolute;
+    background: red;
+}
+#crosshair::before { top: 3px; left: -12px; width: 32px; height: 2px; }
+#crosshair::after { left: 3px; top: -12px; height: 32px; width: 2px; }
+
+/* Floating Widget (Mini App) */
+#floating-widget {
+    position: fixed;
+    top: 15%;
+    left: 5%;
+    width: 160px;
+    background: rgba(28, 28, 33, 0.95);
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 12px;
+    z-index: 10000;
+    display: none;
+    box-shadow: 0 0 20px rgba(255, 0, 127, 0.6);
+    cursor: grab;
+    backdrop-filter: blur(5px);
+}
+#floating-widget.active { display: block; }
+#floating-widget:active { cursor: grabbing; }
+#floating-widget h5 { 
+    margin: 0 0 10px 0; 
+    color: white; 
+    font-size: 13px; 
+    text-align: center;
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+}
+#floating-widget button {
+    width: 100%;
+    padding: 8px;
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: bold;
+}
+</style>
 </head>
 <body>
 
+<!-- 1. LOGIN SCREEN -->
+<div id="login-screen">
+    <div class="login-box">
+        <h2>Security Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="checkLogin()">UNLOCK ACCESS</button>
+    </div>
+</div>
+
+<!-- 2. MAIN APPLICATION -->
+<div id="main-app">
     <header>
-        <img src="a2c88a8d.jpg" alt="Logo" class="logo" onerror="this.style.display='none';">
-        <div class="brand-name">Tripsy Cheats</div>
+        <h1>Tripsy Cheats</h1>
+        <a href="https://youtube.com/@trispycheats?si=Vv4Gz8YL7oVuie9h" target="_blank" class="yt-icon">▶ YouTube</a>
     </header>
 
-    <div class="container">
-        <h1>Get Best <span>Sensitivity</span></h1>
-        
-        <div class="input-group">
-            <input type="text" id="deviceInput" placeholder="Enter phone model (e.g., iPhone 17)">
-        </div>
-        
-        <button onclick="getSensitivity()">Get Sensi</button>
-        
-        <div id="resultArea">Waiting for input...</div>
+    <div class="nav-tabs">
+        <button class="active" onclick="switchTab('home')" id="tab-btn-home">Home</button>
+        <button onclick="switchTab('pro')" id="tab-btn-pro">Pro Sensi</button>
+        <button onclick="switchTab('settings')" id="tab-btn-settings">Settings</button>
+    </div>
 
-        <div class="pro-section">
-            <span class="pro-badge">PRO</span>
-            <div class="pro-title">Premium Features Active</div>
-            <ul class="pro-features">
-                <li>Auto Headshot Config Enabled</li>
-                <li>Zero Recoil Sensitivity Calculations</li>
-                <li>High-Tier VIP Database Access</li>
-                <li>Ultra-Fast Server Responses</li>
-            </ul>
+    <!-- HOME TAB -->
+    <div id="home" class="tab-content active">
+        <div class="ai-box">
+            <h3>AI Sensi Configuration</h3>
+            <p style="color:#aaa; font-size: 13px;">Input your exact phone model to generate perfect aim mechanics.</p>
+            <input type="text" id="device-info" placeholder="e.g., iPhone 15 Pro Max or POCO X3">
+            <button onclick="fetchSensi()">Calculate Sensi</button>
+            <div id="sensi-result">Waiting for device input...</div>
         </div>
     </div>
 
-    <script>
-        async function getSensitivity() {
-            const device = document.getElementById('deviceInput').value.trim();
-            const resultArea = document.getElementById('resultArea');
+    <!-- PRO TAB (15+ YouTubers) -->
+    <div id="pro" class="tab-content">
+        <h3 style="text-align:center; color:var(--primary-color);">Top 15 Pro Player Settings</h3>
+        <div class="pro-grid" id="pro-list">
+            <!-- Populated automatically by Javascript below -->
+        </div>
+    </div>
 
-            if (!device) {
-                alert('Please enter a device name.');
-                return;
-            }
+    <!-- SETTINGS TAB -->
+    <div id="settings" class="tab-content">
+        <div class="setting-item">
+            <span>Floating Widget (Mini App)</span>
+            <button onclick="toggleFloatingWindow()" id="float-btn">Enable</button>
+        </div>
+        <div class="setting-item">
+            <span>Red Aim (Screen Crosshair)</span>
+            <button onclick="toggleCrosshair()" id="crosshair-btn">Enable</button>
+        </div>
+        <div class="setting-item">
+            <span>Support & Feedback</span>
+            <button onclick="window.location.href='https://youtube.com/@trispycheats?si=Vv4Gz8YL7oVuie9h'">YouTube</button>
+        </div>
+    </div>
+</div>
 
-            resultArea.innerHTML = "<span style='color: #ff007f;'>Loading premium database...</span>";
+<!-- 3. IN-SCREEN OVERLAYS -->
+<div id="crosshair"></div>
 
-            try {
-                const response = await fetch(`/api/get-sensi?device=${encodeURIComponent(device)}`);
-                const data = await response.json();
+<div id="floating-widget">
+    <h5>Tripsy Mini Panel</h5>
+    <button onclick="triggerMiniAppSensi()">Inject Sensi</button>
+    <div id="mini-result" style="margin-top:8px; font-size: 11px; color:#00ffcc; text-align:center;"></div>
+</div>
 
-                if (data.result) {
-                    // Prettify the output lines if they contain commas or newlines
-                    resultArea.innerHTML = data.result.replace(/\n/g, '<br>');
-                } else {
-                    resultArea.innerHTML = "<span style='color: #ff3333;'>Error: " + (data.error || "Could not fetch settings.") + "</span>";
-                }
-            } catch (err) {
-                resultArea.innerHTML = "<span style='color: #ff3333;'>Failed to connect to the server.</span>";
-            }
+<script>
+    // ------------------------------------
+    // CONFIGURATION
+    // ------------------------------------
+    const ytChannel = "https://youtube.com/@trispycheats?si=Vv4Gz8YL7oVuie9h";
+
+    // ------------------------------------
+    // LOGIN SYSTEM
+    // ------------------------------------
+    function checkLogin() {
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+
+        if (user === 'Trispy' && pass === 'Trispy01') {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+        } else {
+            alert('Find username and Password in the Channel');
+            window.location.href = ytChannel;
         }
-    </script>
+    }
+
+    // ------------------------------------
+    // NAVIGATION SYSTEM
+    // ------------------------------------
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.nav-tabs button').forEach(btn => btn.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        document.getElementById(`tab-btn-${tabId}`).classList.add('active');
+    }
+
+    // ------------------------------------
+    // AI SERVER CONNECTION
+    // ------------------------------------
+    async function fetchSensi() {
+        const device = document.getElementById('device-info').value;
+        const resultBox = document.getElementById('sensi-result');
+        
+        if (!device) {
+            resultBox.innerHTML = '<span style="color:#ff3333">Please enter a device model first.</span>';
+            return;
+        }
+
+        resultBox.innerHTML = 'Bypassing server... Calculating AI headshot data...';
+
+        try {
+            const response = await fetch('/api/get-sensi', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: `Act as a Free Fire expert. Provide the absolute best high-tier Free Fire headshot sensitivity settings for the device: ${device}. Also give 2 device-specific pro tips for gameplay.` })
+            });
+
+            if(response.ok) {
+                const data = await response.json();
+                resultBox.innerHTML = data.text;
+            } else {
+                resultBox.innerHTML = '<span style="color:#ff3333">Failed to connect to the server. Check your Vercel deployment.</span>';
+            }
+        } catch (error) {
+            resultBox.innerHTML = '<span style="color:#ff3333">Error: API unreachable. Verify get-sensi.js is working.</span>';
+        }
+    }
+
+    // ------------------------------------
+    // 15+ YOUTUBER DATABASE
+    // ------------------------------------
+    const youtubers = [
+        { name: 'White444', gen: 100, red: 95, zoom2: 100, zoom4: 100 },
+        { name: 'Ruok FF', gen: 100, red: 100, zoom2: 100, zoom4: 100 },
+        { name: 'Raistar', gen: 100, red: 90, zoom2: 95, zoom4: 90 },
+        { name: 'Vincenzo', gen: 100, red: 100, zoom2: 100, zoom4: 100 },
+        { name: 'B2K (Born2Kill)', gen: 90, red: 85, zoom2: 100, zoom4: 95 },
+        { name: 'M8N', gen: 100, red: 100, zoom2: 100, zoom4: 100 },
+        { name: 'Nobru', gen: 95, red: 100, zoom2: 90, zoom4: 90 },
+        { name: 'Badge 99', gen: 100, red: 85, zoom2: 75, zoom4: 75 },
+        { name: 'SK Sabir Boss', gen: 100, red: 80, zoom2: 70, zoom4: 70 },
+        { name: 'Total Gaming', gen: 100, red: 90, zoom2: 80, zoom4: 70 },
+        { name: 'Gyan Gaming', gen: 100, red: 90, zoom2: 80, zoom4: 80 },
+        { name: 'Desi Gamers', gen: 100, red: 95, zoom2: 85, zoom4: 85 },
+        { name: 'Lokesh Gamer', gen: 100, red: 80, zoom2: 70, zoom4: 60 },
+        { name: 'AS Gaming', gen: 100, red: 90, zoom2: 90, zoom4: 90 },
+        { name: 'TG Daddy', gen: 100, red: 100, zoom2: 100, zoom4: 100 },
+        { name: 'Apelapato999', gen: 100, red: 100, zoom2: 95, zoom4: 95 }
+    ];
+
+    const proList = document.getElementById('pro-list');
+    youtubers.forEach(yt => {
+        const card = document.createElement('div');
+        card.className = 'yt-card';
+        card.innerHTML = `
+            <h4>${yt.name}</h4>
+            <p>General: ${yt.gen}</p>
+            <p>Red Dot: ${yt.red}</p>
+            <p>2x Scope: ${yt.zoom2}</p>
+            <p>4x Scope: ${yt.zoom4}</p>
+        `;
+        proList.appendChild(card);
+    });
+
+    // ------------------------------------
+    // CROSSHAIR LOGIC
+    // ------------------------------------
+    function toggleCrosshair() {
+        const crosshair = document.getElementById('crosshair');
+        const btn = document.getElementById('crosshair-btn');
+        if (crosshair.style.display === 'none' || crosshair.style.display === '') {
+            crosshair.style.display = 'block';
+            btn.innerText = 'Disable';
+            btn.style.background = '#ff3333';
+        } else {
+            crosshair.style.display = 'none';
+            btn.innerText = 'Enable';
+            btn.style.background = 'var(--accent-color)';
+        }
+    }
+
+    // ------------------------------------
+    // DRAGGABLE FLOATING WIDGET LOGIC
+    // ------------------------------------
+    const floatWidget = document.getElementById('floating-widget');
+    const floatBtn = document.getElementById('float-btn');
+    
+    function toggleFloatingWindow() {
+        floatWidget.classList.toggle('active');
+        if(floatWidget.classList.contains('active')) {
+            floatBtn.innerText = 'Disable';
+            floatBtn.style.background = '#ff3333';
+        } else {
+            floatBtn.innerText = 'Enable';
+            floatBtn.style.background = 'var(--accent-color)';
+        }
+    }
+
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    floatWidget.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        offsetX = e.clientX - floatWidget.getBoundingClientRect().left;
+        offsetY = e.clientY - floatWidget.getBoundingClientRect().top;
+    });
+    document.addEventListener('mousemove', (e) => {
+        if(isDragging) {
+            floatWidget.style.left = (e.clientX - offsetX) + 'px';
+            floatWidget.style.top = (e.clientY - offsetY) + 'px';
+        }
+    });
+    document.addEventListener('mouseup', () => isDragging = false);
+
+    floatWidget.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        offsetX = e.touches[0].clientX - floatWidget.getBoundingClientRect().left;
+        offsetY = e.touches[0].clientY - floatWidget.getBoundingClientRect().top;
+    });
+    document.addEventListener('touchmove', (e) => {
+        if(isDragging) {
+            floatWidget.style.left = (e.touches[0].clientX - offsetX) + 'px';
+            floatWidget.style.top = (e.touches[0].clientY - offsetY) + 'px';
+        }
+    });
+    document.addEventListener('touchend', () => isDragging = false);
+
+    function triggerMiniAppSensi() {
+        document.getElementById('mini-result').innerText = "General: 100\nRed Dot: 98\nAuto-Aim Active";
+    }
+</script>
 </body>
 </html>
