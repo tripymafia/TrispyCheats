@@ -1,9 +1,11 @@
 {
-  "name": "grok-app",
+  "name": "grok-sensitivity-app",
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
-    "openai": "^4.0.0"
+    "openai": "^4.53.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
-
