@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: process.env.GEMINI_API_KEY, // Keeping this name so you don't have to change your Vercel settings again
+  apiKey: process.env.GROK_API_KEY, // Keeping this name so you don't have to change your Vercel settings again
   baseURL: "https://api.x.ai/v1",    // Grok's official API Base URL
 });
 
