@@ -1,26 +1,42 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from '@google/generative-ai';
 
 export default async function handler(req, res) {
-  const { device } = req.query;
+  // CORS Headers (Allows your website to call this API without errors)
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+  );
 
-  // If no device name is provided, return a clear error
-  if (!device) {
-    return res.status(400).json({ error: "Device model is required" });
+  // If it's an OPTIONS request (Preflight request), respond and stop here
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
   }
 
   try {
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    // 1. Get the API Key from Environment Variables
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return res.status(500).json({ error: "API Key (GEMINI_API_KEY) missing in Vercel." });
+    }
 
-    // AI will now receive any device name provided by the user
-    const prompt = `Provide the optimal sensitivity settings for the phone model: ${device}. If the device is not a real phone or doesn't exist, politely inform the user. List settings in a clean, readable format.`;
+    // 2. Initialize GoogleGenAI correctly
+    const ai = new GoogleGenAI({ apiKey: apiKey });
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    // 3. Set the model and prompt (gemini-2.5-flash is fast and accurate)
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: 'Hello, give me a quick motivation quote.', 
+    });
 
-    res.status(200).json({ result: text });
+    // 4. Return the response as JSON
+    return res.status(200).json({ text: response.text });
+
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch sensitivity from AI" });
+    console.error("API Error:", error);
+    return res.status(500).json({ error: error.message });
   }
 }
