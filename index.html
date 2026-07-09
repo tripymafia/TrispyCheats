@@ -9,43 +9,49 @@
         .page { padding: 20px; }
         #main-app { display: none; }
         .box { background: #1c1c21; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #333; }
-        input, button { width: 100%; padding: 15px; margin: 5px 0; border-radius: 8px; border: none; font-size: 16px; }
-        button { background: #ff007f; color: white; cursor: pointer; }
-        #sensi-result { background: #000; padding: 15px; margin-top: 10px; color: #00ffcc; white-space: pre-wrap; }
+        input, button { width: 100%; padding: 15px; margin: 5px 0; border-radius: 8px; border: none; font-size: 16px; box-sizing: border-box; }
+        button { background: #ff007f; color: white; cursor: pointer; font-weight: bold; }
+        #sensi-result { background: #000; padding: 15px; margin-top: 10px; color: #00ffcc; white-space: pre-wrap; border-radius: 5px; }
     </style>
 </head>
 <body>
 
 <div id="login-screen" class="page">
     <div class="box">
-        <h2>Login</h2>
+        <h2>Security Login</h2>
         <input type="text" id="user" placeholder="Username">
         <input type="password" id="pass" placeholder="Password">
-        <button onclick="check()">UNLOCK</button>
+        <button onclick="check()">UNLOCK ACCESS</button>
     </div>
 </div>
 
 <div id="main-app" class="page">
     <h1>Tripsy Cheats</h1>
     <div class="box">
-        <input type="text" id="dev" placeholder="Phone Model">
+        <input type="text" id="dev" placeholder="Enter Phone Model">
         <button onclick="calc()">Calculate AI Sensi</button>
-        <div id="sensi-result">Ready...</div>
+        <div id="sensi-result">Ready for input...</div>
     </div>
 </div>
 
 <script>
     function check() {
-        if(document.getElementById('user').value === 'trispy' && document.getElementById('pass').value === 'Trispy01') {
+        const u = document.getElementById('user').value.trim();
+        const p = document.getElementById('pass').value.trim();
+        if(u === 'Trispy' && p === 'Trispy01') {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
-        } else { alert('Wrong Credentials'); }
+        } else { 
+            alert('Access Denied! Incorrect Username or Password.'); 
+        }
     }
 
     async function calc() {
-        const device = document.getElementById('dev').value;
+        const device = document.getElementById('dev').value.trim();
         const res = document.getElementById('sensi-result');
-        res.innerText = "⚡ Connecting...";
+        if(!device) return alert('Please enter a device model');
+        
+        res.innerText = "⚡ Connecting to Groq AI...";
         try {
             const r = await fetch('/api/get-sensi', {
                 method: 'POST',
@@ -54,7 +60,7 @@
             });
             const d = await r.json();
             res.innerText = d.text;
-        } catch(e) { res.innerText = "Error: Check Vercel API key."; }
+        } catch(e) { res.innerText = "Error: Check Vercel API Configuration."; }
     }
 </script>
 </body>
