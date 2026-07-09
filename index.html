@@ -1,25 +1,19 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <input type="text" id="dev" placeholder="Phone Model">
-    <button onclick="testAi()">Test AI</button>
+    <button onclick="testAi()">Test Connection</button>
     <div id="res">Waiting...</div>
 
     <script>
         async function testAi() {
-            const dev = document.getElementById('dev').value;
             const res = document.getElementById('res');
             res.innerText = "Connecting...";
             try {
-                const r = await fetch('/api/get-sensi', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ device: dev })
-                });
-                const rawText = await r.text();
-                res.innerText = "Raw Response: " + rawText;
+                const r = await fetch('/api/get-sensi', { method: 'POST', body: "{}" });
+                const d = await r.json();
+                res.innerText = "Response: " + d.text;
             } catch(e) { 
-                res.innerText = "Error: " + e.message; 
+                res.innerText = "CRITICAL ERROR: " + e.message; 
             }
         }
     </script>
