@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     const body = JSON.parse(req.body);
     const apiKey = process.env.GROQ_API_KEY;
 
-    if (!apiKey) throw new Error("API Key missing in Vercel");
+    if (!apiKey) throw new Error("API Key missing in Vercel!");
 
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
@@ -19,14 +19,13 @@ export default async function handler(req, res) {
 
     const data = await response.json();
     
-    // If Groq returns an error, send that back clearly
     if (data.error) {
-        return res.status(200).json({ text: "Groq Error: " + data.error.message });
+        return res.status(200).json({ text: "Groq API Error: " + data.error.message });
     }
 
     res.status(200).json({ text: data.choices[0].message.content });
   } catch (e) {
-    // This sends the actual error to your screen
-    res.status(200).json({ text: "System Error: " + e.message });
+    // This is the fix: it prints the real error
+    res.status(200).json({ text: "Error: " + e.toString() });
   }
 }
