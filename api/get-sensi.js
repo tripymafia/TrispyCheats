@@ -10,19 +10,17 @@ export default async function handler(req, res) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "llama3-8b-8192",
+        model: "llama-3.3-70b-versatile", 
         messages: [{ role: "user", content: `Best sensitivity for ${body.device}` }]
       })
     });
 
     const data = await response.json();
 
-    // SAFETY CHECK: Does the data contain what we need?
     if (data.choices && data.choices.length > 0) {
         res.status(200).json({ text: data.choices[0].message.content });
     } else {
-        // If not, show exactly what Groq sent back so we can see the issue
-        res.status(200).json({ text: "Groq Response: " + JSON.stringify(data) });
+        res.status(200).json({ text: "Groq Error: " + JSON.stringify(data) });
     }
   } catch (e) {
     res.status(500).json({ text: "Error: " + e.message });
