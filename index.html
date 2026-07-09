@@ -3,126 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tripsy Sensi Premium</title>
+    <title>Tripsy Premium Panel</title>
     <style>
-        /* Base & Background */
-        body { margin: 0; background: #070709; color: #fff; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
-        
-        /* Star Animation */
+        /* Base Styling & Background */
+        body { margin: 0; background: #050507; color: #fff; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; user-select: none; }
         .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: #000 url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iMTUwIiBjeT0iMTUwIiByPSIxLjUiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIzMDAiIGN5PSI4MCIgcj0iMiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==') repeat top center; animation: move-twink 150s linear infinite; }
         @keyframes move-twink { from {background-position:0 0;} to {background-position:-10000px 5000px;} }
         
-        /* Floating Window / Logo */
-        #floating-logo { position: fixed; top: 15px; left: 15px; z-index: 9999; background: rgba(20, 20, 25, 0.9); border: 2px solid #ff007f; padding: 8px 15px; border-radius: 20px; font-weight: bold; color: #ff007f; box-shadow: 0 0 10px #ff007f; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
-        
-        /* Crosshair Overlay (Centered) */
-        #crosshair-overlay { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #00ffcc; font-size: 30px; font-weight: bold; display: none; pointer-events: none; z-index: 10000; text-shadow: 0 0 5px #000; }
-        
-        .page { padding: 20px; display: none; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        
-        /* Containers */
-        .center-screen { display: flex; height: 100vh; justify-content: center; align-items: center; flex-direction: column; }
-        .box { background: rgba(20, 20, 25, 0.85); backdrop-filter: blur(8px); padding: 25px; border-radius: 15px; border: 1px solid #7928ca; box-shadow: 0 0 20px rgba(121, 40, 202, 0.3); width: 100%; max-width: 400px; position: relative; margin: 0 auto; }
-        
-        /* Colorful Animated Texture Text */
-        .animated-title { font-size: 2.4rem; font-weight: 900; text-align: center; margin-top: 10px; margin-bottom: 20px; background: linear-gradient(to right, #ff007f, #7928ca, #00d2ff, #7928ca, #ff007f); background-size: 200% auto; color: #fff; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; text-transform: uppercase; }
-        @keyframes shine { to { background-position: 200% center; } }
-        
-        .pro-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #ff007f; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; box-shadow: 0 0 10px #ff007f; }
+        /* FOV Circle & Dot */
+        #fov-circle { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 2px solid rgba(0, 255, 204, 0.4); border-radius: 50%; width: 100px; height: 100px; display: none; pointer-events: none; z-index: 9998; box-shadow: 0 0 15px rgba(0,255,204,0.2); transition: width 0.2s, height 0.2s; }
+        #crosshair-dot { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #ff007f; width: 4px; height: 4px; border-radius: 50%; display: none; pointer-events: none; z-index: 9999; box-shadow: 0 0 8px #ff007f; }
 
-        /* YT Logo Button */
-        .yt-logo { display: flex; align-items: center; justify-content: center; background: #ff0000; padding: 10px 20px; border-radius: 30px; text-decoration: none; color: white; font-weight: bold; gap: 10px; box-shadow: 0 0 15px rgba(255,0,0,0.5); width: max-content; margin: 0 auto 15px auto; }
+        /* Draggable Floating Mod Menu */
+        #floating-menu { position: fixed; top: 20px; left: 20px; width: 220px; background: rgba(15, 15, 20, 0.95); border: 2px solid #7928ca; border-radius: 12px; z-index: 10000; box-shadow: 0 0 20px rgba(121, 40, 202, 0.5); display: none; flex-direction: column; overflow: hidden; }
+        #fm-header { background: linear-gradient(90deg, #7928ca, #ff007f); padding: 10px; display: flex; justify-content: space-between; align-items: center; cursor: move; font-weight: 900; }
+        #fm-logo { cursor: pointer; color: #fff; text-shadow: 0 0 5px #000; font-size: 14px; }
+        .fm-controls button { background: #111; border: 1px solid #fff; color: #fff; border-radius: 4px; width: 25px; height: 25px; cursor: pointer; font-weight: bold; margin-left: 5px; }
+        .fm-controls button.close-btn { background: #ff0000; border: none; }
+        #fm-body { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
         
-        /* Inputs & Buttons */
-        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: 1px solid #444; background: #111; color: #fff; box-sizing: border-box; font-size: 16px; }
+        /* Floating Menu Buttons & Status Dots */
+        .mod-btn { display: flex; align-items: center; justify-content: space-between; background: #222; border: 1px solid #444; color: #fff; padding: 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.3s; }
+        .mod-btn:hover { border-color: #7928ca; }
+        .status-dot { width: 12px; height: 12px; border-radius: 50%; background: red; box-shadow: 0 0 8px red; transition: 0.3s; }
+        .status-dot.active { background: #00ff00; box-shadow: 0 0 10px #00ff00; }
+
+        /* Main UI Layout */
+        .page { padding: 20px; display: none; animation: fadeIn 0.4s ease; max-width: 500px; margin: 0 auto; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .center-screen { display: flex; height: 100vh; justify-content: center; align-items: center; flex-direction: column; }
+        .box { background: rgba(20, 20, 25, 0.85); backdrop-filter: blur(8px); padding: 25px; border-radius: 15px; border: 1px solid #7928ca; box-shadow: 0 0 20px rgba(121, 40, 202, 0.3); width: 100%; box-sizing: border-box; margin-bottom: 20px; }
+        
+        /* Typography & Inputs */
+        .animated-title { font-size: 2.2rem; font-weight: 900; text-align: center; margin-top: 0; margin-bottom: 20px; background: linear-gradient(to right, #ff007f, #7928ca, #00d2ff, #7928ca, #ff007f); background-size: 200% auto; color: #fff; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; text-transform: uppercase; }
+        @keyframes shine { to { background-position: 200% center; } }
+        input[type="text"], input[type="password"] { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: 1px solid #444; background: #111; color: #fff; box-sizing: border-box; font-size: 16px; }
         input:focus { outline: none; border-color: #7928ca; box-shadow: 0 0 8px #7928ca; }
         
-        button.action-btn { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: none; font-size: 16px; background: linear-gradient(45deg, #7928ca, #ff007f); color: #fff; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
-        button.action-btn:hover { box-shadow: 0 0 15px #ff007f; }
+        /* Main Action Buttons */
+        .action-btn { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: none; font-size: 16px; background: linear-gradient(45deg, #7928ca, #ff007f); color: #fff; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
+        .action-btn:hover { box-shadow: 0 0 15px #ff007f; }
         
-        /* Tabs */
-        .nav { display: flex; gap: 8px; margin-bottom: 20px; max-width: 400px; margin-left: auto; margin-right: auto; }
-        .nav button { flex: 1; background: #222; border: none; color: #aaa; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .nav button.active { background: linear-gradient(45deg, #7928ca, #ff007f); color: #fff; box-shadow: 0 0 10px #7928ca; }
+        /* Custom Sliders */
+        .slider-container { display: flex; align-items: center; gap: 15px; margin: 15px 0; }
+        input[type="range"] { flex: 1; accent-color: #ff007f; }
         
-        /* Results & Grids */
-        #res { background: rgba(0,0,0,0.8); padding: 20px; margin-top: 15px; color: #00ffcc; white-space: pre-wrap; border-radius: 8px; border-left: 4px solid #ff007f; line-height: 1.8; font-size: 15px; }
-        .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .feature-btn { padding: 15px; border-radius: 8px; border: 1px solid #444; background: #222; color: #fff; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .feature-btn.on { background: #00c853; border-color: #00e676; box-shadow: 0 0 10px #00c853; }
+        /* Navigation Tabs */
+        .nav { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 20px; }
+        .nav button { flex: 1; min-width: 45%; background: #222; border: 1px solid #333; color: #aaa; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 12px; }
+        .nav button.active { background: linear-gradient(45deg, #7928ca, #ff007f); color: #fff; border-color: transparent; }
+        
+        /* Output Console */
+        .console-output { background: rgba(0,0,0,0.8); padding: 15px; color: #00ffcc; white-space: pre-wrap; border-radius: 8px; border-left: 4px solid #ff007f; line-height: 1.6; font-size: 14px; font-family: monospace; }
+        
+        /* Grid for Youtubers */
+        .yt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .yt-btn { background: #1a1a24; border: 1px solid #555; padding: 12px; color: #fff; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .yt-btn:hover { background: #7928ca; border-color: #ff007f; }
     </style>
 </head>
 <body>
 
 <div class="stars"></div>
-<div id="floating-logo">TRIPSY</div>
-<div id="crosshair-overlay">+</div>
+<div id="fov-circle"></div>
+<div id="crosshair-dot"></div>
+
+<div id="floating-menu">
+    <div id="fm-header">
+        <span id="fm-logo" onclick="toggleFloatingBody()">TRIPSY PANEL</span>
+        <div class="fm-controls">
+            <button onclick="toggleFloatingBody()">-</button>
+            <button class="close-btn" onclick="closeFloatingMenu()">X</button>
+        </div>
+    </div>
+    <div id="fm-body">
+        <div class="mod-btn" onclick="toggleMod(this, 'Legit Headshot')">Legit Headshot <div class="status-dot"></div></div>
+        <div class="mod-btn" onclick="toggleMod(this, 'Auto Headshot')">Auto Headshot <div class="status-dot"></div></div>
+        <div class="mod-btn" onclick="toggleMod(this, 'Magic Bullet')">Magic Bullet <div class="status-dot"></div></div>
+        <div class="mod-btn" onclick="toggleMod(this, 'ESP Line & Box')">ESP Line & Box <div class="status-dot"></div></div>
+        <div class="mod-btn" onclick="toggleMod(this, 'Aim Lock')">Aim Lock <div class="status-dot"></div></div>
+    </div>
+</div>
 
 <div id="login-screen" class="page center-screen" style="display: flex;">
     <div class="box">
-        <div class="pro-badge">PRO SEC V3</div>
-        <h2 class="animated-title">TRIPSY LOGIN</h2>
+        <h2 class="animated-title">TRIPSY PRO SEC</h2>
         <input type="text" id="user" placeholder="Username">
         <input type="password" id="pass" placeholder="Password">
-        <button class="action-btn" onclick="check()">INJECT LOGIN</button>
+        <button class="action-btn" onclick="login()">INJECT PANEL</button>
     </div>
 </div>
 
 <div id="main-app" class="page">
-    
-    <a href="https://youtube.com" target="_blank" class="yt-logo">
-        <svg viewBox="0 0 24 24" fill="white" width="20px" height="20px"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
-        SUBSCRIBE
-    </a>
-
-    <h1 class="animated-title">TRIPSY SENSI</h1>
+    <h1 class="animated-title">TRIPSY PREMIUM</h1>
     
     <div class="nav">
-        <button class="active" id="btn-sensi" onclick="showTab('sensi-tab', 'btn-sensi')">AI SENSI</button>
-        <button id="btn-esp" onclick="showTab('esp-tab', 'btn-esp')">ESP/AIM</button>
-        <button id="btn-cross" onclick="showTab('cross-tab', 'btn-cross')">CROSSHAIR</button>
+        <button class="active" id="btn-sensi" onclick="showTab('sensi-tab', 'btn-sensi')">AI Sensi</button>
+        <button id="btn-pro" onclick="showTab('pro-tab', 'btn-pro')">Pro Youtubers</button>
+        <button id="btn-fov" onclick="showTab('fov-tab', 'btn-fov')">FOV & Aim</button>
+        <button id="btn-menu" onclick="showTab('menu-tab', 'btn-menu')">Mod Menu</button>
     </div>
 
     <div id="sensi-tab" class="tab">
         <div class="box">
-            <input type="text" id="dev" placeholder="Enter Device (e.g. iPhone 14, Realme)">
-            <button class="action-btn" onclick="calc()">GENERATE PRO SENSI</button>
-            <div id="res">Awaiting device input...</div>
+            <h3 style="margin-top:0; color:#ff007f;">AI Hardware Scan</h3>
+            <input type="text" id="dev" placeholder="Enter Exact Device (e.g. Realme 9)">
+            <button class="action-btn" onclick="generateAI()">SCAN & CALCULATE</button>
+            <div id="res-ai" class="console-output" style="margin-top:15px;">Awaiting scan...</div>
         </div>
     </div>
 
-    <div id="esp-tab" class="tab" style="display:none;">
-        <div class="box feature-grid">
-            <button class="feature-btn" onclick="toggleBtn(this, 'ESP Radar')">ESP Radar</button>
-            <button class="feature-btn" onclick="toggleBtn(this, 'ESP Line')">ESP Line</button>
-            <button class="feature-btn" onclick="toggleBtn(this, 'Aim Assist')">Aim Assist</button>
-            <button class="feature-btn" onclick="toggleBtn(this, 'Auto Headshot')">Auto Headshot</button>
-            <button class="feature-btn" onclick="toggleBtn(this, 'No Recoil')">No Recoil</button>
-            <button class="feature-btn" onclick="toggleBtn(this, 'High Damage')">High Damage</button>
-        </div>
-    </div>
-
-    <div id="cross-tab" class="tab" style="display:none;">
+    <div id="pro-tab" class="tab" style="display:none;">
         <div class="box">
-            <h3 style="text-align:center; color:#fff; margin-top:0;">Crosshair Color Setup</h3>
-            <input type="color" id="cross-color" value="#00ffcc" style="height: 60px; padding: 0; border:none; border-radius: 8px;">
-            <button class="action-btn" onclick="applyCrosshair()">ENABLE CROSSHAIR</button>
-            <button class="action-btn" style="background: #333;" onclick="disableCrosshair()">DISABLE</button>
+            <h3 style="margin-top:0; color:#ff007f;">Pro Player Configs</h3>
+            <div class="yt-grid">
+                <button class="yt-btn" onclick="loadYT('Ruok FF')">Ruok FF</button>
+                <button class="yt-btn" onclick="loadYT('White444')">White444</button>
+                <button class="yt-btn" onclick="loadYT('Raistar')">Raistar</button>
+                <button class="yt-btn" onclick="loadYT('Vincenzo')">Vincenzo</button>
+            </div>
+            <div id="res-yt" class="console-output" style="margin-top:15px;">Select a legend...</div>
+        </div>
+    </div>
+
+    <div id="fov-tab" class="tab" style="display:none;">
+        <div class="box">
+            <h3 style="margin-top:0; color:#ff007f;">FOV Controller</h3>
+            <div class="slider-container">
+                <label style="font-weight:bold; color:#00ffcc;">FOV Range:</label>
+                <input type="range" id="fov-slider" min="50" max="300" value="100" oninput="updateFov(this.value)">
+                <span id="fov-val" style="font-weight:bold;">100</span>
+            </div>
+            <button class="action-btn" onclick="toggleFovUI()">TOGGLE FOV UI</button>
+            
+            <h3 style="margin-top:20px; color:#ff007f;">Center Dot Setup</h3>
+            <div style="display: flex; gap: 10px;">
+                <input type="color" id="dot-color" value="#ff007f" style="height: 50px; flex:1; border:none; border-radius:8px; cursor:pointer;">
+                <button class="action-btn" style="margin:0; flex:2;" onclick="applyDot()">APPLY DOT</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="menu-tab" class="tab" style="display:none;">
+        <div class="box text-center">
+            <h3 style="margin-top:0; color:#ff007f;">Floating Window Manager</h3>
+            <p style="font-size:14px; color:#aaa;">Launch the overlay menu to activate headshots and ESP directly on your screen.</p>
+            <button class="action-btn" onclick="launchFloatingMenu()">LAUNCH OVERLAY</button>
         </div>
     </div>
 </div>
 
 <script>
-    // Security Login
-    function check() {
+    // --- 1. LOGIN & NAVIGATION ---
+    function login() {
         if(document.getElementById('user').value === 'Trispy' && document.getElementById('pass').value === 'Trispy01') {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
-        } else { alert('Pro Sec: Access Denied! Incorrect Credentials.'); }
+        } else { alert('Pro Sec: Invalid Credentials.'); }
     }
 
-    // Tab Navigation
     function showTab(tabId, btnId) {
         document.querySelectorAll('.tab').forEach(t => t.style.display = 'none');
         document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
@@ -130,13 +169,106 @@
         document.getElementById(btnId).classList.add('active');
     }
 
-    // AI Generation
-    async function calc() {
+    // --- 2. FLOATING MENU LOGIC ---
+    const fMenu = document.getElementById('floating-menu');
+    const fBody = document.getElementById('fm-body');
+    const modBtns = document.querySelectorAll('.mod-btn .status-dot');
+
+    function launchFloatingMenu() {
+        fMenu.style.display = 'flex';
+        fBody.style.display = 'flex';
+    }
+
+    function toggleFloatingBody() {
+        // Hides the options, shows only the logo header
+        fBody.style.display = fBody.style.display === 'none' ? 'flex' : 'none';
+    }
+
+    function closeFloatingMenu() {
+        // Hides the entire window and turns off all active cheats
+        fMenu.style.display = 'none';
+        modBtns.forEach(dot => {
+            dot.classList.remove('active');
+            dot.parentElement.style.borderColor = '#444';
+        });
+    }
+
+    function toggleMod(btnElement, name) {
+        const dot = btnElement.querySelector('.status-dot');
+        dot.classList.toggle('active');
+        if(dot.classList.contains('active')) {
+            btnElement.style.borderColor = '#00ff00';
+        } else {
+            btnElement.style.borderColor = '#444';
+        }
+    }
+
+    // Floating Menu Dragging Logic
+    let isDragging = false, currentX, currentY, initialX, initialY, xOffset = 0, yOffset = 0;
+    const header = document.getElementById("fm-header");
+
+    header.addEventListener("mousedown", dragStart);
+    document.addEventListener("mousemove", drag);
+    document.addEventListener("mouseup", dragEnd);
+    
+    // Mobile Touch Support
+    header.addEventListener("touchstart", dragStart, {passive: false});
+    document.addEventListener("touchmove", drag, {passive: false});
+    document.addEventListener("touchend", dragEnd);
+
+    function dragStart(e) {
+        initialX = (e.type === "touchstart" ? e.touches[0].clientX : e.clientX) - xOffset;
+        initialY = (e.type === "touchstart" ? e.touches[0].clientY : e.clientY) - yOffset;
+        if (e.target === header || e.target.id === 'fm-logo') isDragging = true;
+    }
+
+    function drag(e) {
+        if (isDragging) {
+            e.preventDefault();
+            currentX = (e.type === "touchmove" ? e.touches[0].clientX : e.clientX) - initialX;
+            currentY = (e.type === "touchmove" ? e.touches[0].clientY : e.clientY) - initialY;
+            xOffset = currentX; yOffset = currentY;
+            fMenu.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+        }
+    }
+    function dragEnd() { isDragging = false; }
+
+    // --- 3. FOV & CROSSHAIR LOGIC ---
+    let fovActive = false;
+    function updateFov(val) {
+        document.getElementById('fov-val').innerText = val;
+        document.getElementById('fov-circle').style.width = val + 'px';
+        document.getElementById('fov-circle').style.height = val + 'px';
+    }
+    function toggleFovUI() {
+        fovActive = !fovActive;
+        document.getElementById('fov-circle').style.display = fovActive ? 'block' : 'none';
+    }
+    function applyDot() {
+        const dot = document.getElementById('crosshair-dot');
+        dot.style.background = document.getElementById('dot-color').value;
+        dot.style.boxShadow = `0 0 10px ${document.getElementById('dot-color').value}`;
+        dot.style.display = 'block';
+    }
+
+    // --- 4. YOUTUBER CONFIGS ---
+    const ytData = {
+        'Ruok FF': "1. General: 100\n2. Red Dot: 95\n3. 2x Scope: 100\n4. 4x Scope: 100\n5. Sniper: 50\n6. Free Look: 65\n7. DPI: 800\n8. Fire Button: 45%",
+        'White444': "1. General: 98\n2. Red Dot: 90\n3. 2x Scope: 95\n4. 4x Scope: 95\n5. Sniper: 40\n6. Free Look: 70\n7. DPI: 750\n8. Fire Button: 40%",
+        'Raistar': "1. General: 100\n2. Red Dot: 100\n3. 2x Scope: 100\n4. 4x Scope: 100\n5. Sniper: 70\n6. Free Look: 50\n7. DPI: 900\n8. Fire Button: 48%",
+        'Vincenzo': "1. General: 85\n2. Red Dot: 90\n3. 2x Scope: 95\n4. 4x Scope: 95\n5. Sniper: 60\n6. Free Look: 60\n7. DPI: 600\n8. Fire Button: 52%"
+    };
+    function loadYT(name) {
+        document.getElementById('res-yt').innerText = `[${name} Settings Applied]\n\n` + ytData[name];
+    }
+
+    // --- 5. BACKEND AI FETCH ---
+    async function generateAI() {
         const device = document.getElementById('dev').value.trim();
-        const res = document.getElementById('res');
-        if(!device) return alert('Please enter a device model!');
+        const res = document.getElementById('res-ai');
+        if(!device) return alert('Enter a device first.');
         
-        res.innerText = "⚡ Initializing AI Engine...\nAnalyzing Hardware...";
+        res.innerText = "⚡ Fetching Config via Tripsy Engine...";
         try {
             const r = await fetch('/api/get-sensi', {
                 method: 'POST',
@@ -148,29 +280,6 @@
         } catch(e) { 
             res.innerText = "Error: Connection failed. Verify Vercel deployment."; 
         }
-    }
-
-    // ESP Toggle Logic
-    function toggleBtn(btn, name) {
-        btn.classList.toggle('on');
-        if(btn.classList.contains('on')) {
-            btn.innerText = name + ' [ON]';
-        } else {
-            btn.innerText = name;
-        }
-    }
-
-    // Crosshair Logic
-    function applyCrosshair() {
-        const color = document.getElementById('cross-color').value;
-        const cross = document.getElementById('crosshair-overlay');
-        cross.style.color = color;
-        cross.style.display = 'block';
-        alert('Custom Crosshair injected to screen center.');
-    }
-    
-    function disableCrosshair() {
-        document.getElementById('crosshair-overlay').style.display = 'none';
     }
 </script>
 </body>
