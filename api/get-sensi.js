@@ -1,15 +1,20 @@
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   // Only allow POST requests
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ text: 'Method not allowed' });
   }
 
   try {
-    // Vercel already parses the JSON for us, so we just extract the device
-    const { device } = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
     const apiKey = process.env.GROK_API_KEY;
+    
+    // Safety Check 1: Is the key missing?
+    if (!apiKey) {
+        return res.status(500).json({ text: 'GROK_API_KEY is missing! You must click "Redeploy" in Vercel.' });
+    }
 
-    // Connect to Grok AI directly
+    const device = req.body.device || 'Unknown Device';
+
+    // Connect to Grok API directly
     const response = await fetch("https://api.x.ai/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -17,7 +22,7 @@ module.exports = async function handler(req, res) {
         "Authorization": `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "grok-2-1212",
+        model: "grok-beta", // Safest model endpoint for xAI
         messages: [
           {
             role: "system",
@@ -33,13 +38,20 @@ module.exports = async function handler(req, res) {
 
     const data = await response.json();
     
+    // Safety Check 2: Did Grok reject our API Key?
+    if (!response.ok) {
+        return res.status(500).json({ text: `Grok API Error: ${data.error?.message || 'Unauthorized Key'}` });
+    }
+
+    // Safety Check 3: Success
     if (data.choices && data.choices.length > 0) {
-        res.status(200).json({ text: data.choices[0].message.content });
+        return res.status(200).json({ text: data.choices[0].message.content });
     } else {
-        res.status(500).json({ text: "AI Error: Could not generate settings." });
+        return res.status(500).json({ text: "AI returned an empty response." });
     }
     
   } catch (error) {
-    res.status(500).json({ text: "Server Error: Unable to connect to Grok AI." });
+    // Safety Check 4: Complete Server Crash
+    return res.status(500).json({ text: `Vercel Server Crash: ${error.message}` });
   }
-};
+}
