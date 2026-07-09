@@ -3,52 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tripsy Cheats - Premium</title>
+    <title>Tripsy Cheats</title>
     <style>
         body { margin: 0; background: #0b0b0c; color: #fff; font-family: sans-serif; }
-        #login-screen, #main-app { padding: 20px; }
+        .page { padding: 20px; }
         #main-app { display: none; }
         .box { background: #1c1c21; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #333; }
-        input, button { width: 100%; padding: 12px; margin: 5px 0; border-radius: 5px; border: none; }
+        input, button { width: 100%; padding: 15px; margin: 5px 0; border-radius: 8px; border: none; font-size: 16px; }
         button { background: #ff007f; color: white; cursor: pointer; }
         #sensi-result { background: #000; padding: 15px; margin-top: 10px; color: #00ffcc; white-space: pre-wrap; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .nav { display: flex; gap: 10px; margin-bottom: 20px; }
-        .nav button { flex: 1; }
     </style>
 </head>
 <body>
 
-<div id="login-screen">
+<div id="login-screen" class="page">
     <div class="box">
-        <h2>Security Login</h2>
+        <h2>Login</h2>
         <input type="text" id="user" placeholder="Username">
         <input type="password" id="pass" placeholder="Password">
         <button onclick="check()">UNLOCK</button>
     </div>
 </div>
 
-<div id="main-app">
+<div id="main-app" class="page">
     <h1>Tripsy Cheats</h1>
-    <div class="nav">
-        <button onclick="show('home')">Home</button>
-        <button onclick="show('settings')">Settings</button>
-    </div>
-
-    <div id="home" class="tab-content active">
-        <div class="box">
-            <input type="text" id="dev" placeholder="Phone Model">
-            <button onclick="calc()">Calculate AI Sensi</button>
-            <div id="sensi-result">Ready...</div>
-        </div>
-    </div>
-
-    <div id="settings" class="tab-content">
-        <div class="box">
-            <button onclick="alert('Feature Active')">Toggle ESP Radar</button>
-            <button onclick="alert('Feature Active')">Toggle Aim Assist</button>
-        </div>
+    <div class="box">
+        <input type="text" id="dev" placeholder="Phone Model">
+        <button onclick="calc()">Calculate AI Sensi</button>
+        <div id="sensi-result">Ready...</div>
     </div>
 </div>
 
@@ -60,23 +42,19 @@
         } else { alert('Wrong Credentials'); }
     }
 
-    function show(id) {
-        document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
-        document.getElementById(id).style.display = 'block';
-    }
-
     async function calc() {
         const device = document.getElementById('dev').value;
         const res = document.getElementById('sensi-result');
-        res.innerText = "⚡ Connecting to Groq AI...";
+        res.innerText = "⚡ Connecting...";
         try {
             const r = await fetch('/api/get-sensi', {
                 method: 'POST',
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ device: device })
             });
             const d = await r.json();
             res.innerText = d.text;
-        } catch(e) { res.innerText = "Error: Check Vercel Logs."; }
+        } catch(e) { res.innerText = "Error: Check Vercel API key."; }
     }
 </script>
 </body>
