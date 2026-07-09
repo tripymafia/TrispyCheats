@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tripsy Premium Panel</title>
+    <title>Tripsy Cheats Panel</title>
+    <!-- Importing New Font for Tripsy Cheats -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
+    
     <style>
         /* Base Styling & Background */
         body { margin: 0; background: #050507; color: #fff; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; user-select: none; }
@@ -22,7 +25,6 @@
         .fm-controls button.close-btn { background: #ff0000; border: none; }
         #fm-body { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
         
-        /* Floating Menu Buttons & Status Dots */
         .mod-btn { display: flex; align-items: center; justify-content: space-between; background: #222; border: 1px solid #444; color: #fff; padding: 10px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.3s; }
         .mod-btn:hover { border-color: #7928ca; }
         .status-dot { width: 12px; height: 12px; border-radius: 50%; background: red; box-shadow: 0 0 8px red; transition: 0.3s; }
@@ -34,29 +36,32 @@
         .center-screen { display: flex; height: 100vh; justify-content: center; align-items: center; flex-direction: column; }
         .box { background: rgba(20, 20, 25, 0.85); backdrop-filter: blur(8px); padding: 25px; border-radius: 15px; border: 1px solid #7928ca; box-shadow: 0 0 20px rgba(121, 40, 202, 0.3); width: 100%; box-sizing: border-box; margin-bottom: 20px; }
         
-        /* Typography & Inputs */
+        /* Typography & Custom Font */
+        .title-font { font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
         .animated-title { font-size: 2.2rem; font-weight: 900; text-align: center; margin-top: 0; margin-bottom: 20px; background: linear-gradient(to right, #ff007f, #7928ca, #00d2ff, #7928ca, #ff007f); background-size: 200% auto; color: #fff; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; text-transform: uppercase; }
         @keyframes shine { to { background-position: 200% center; } }
+        
+        /* Inputs */
         input[type="text"], input[type="password"] { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: 1px solid #444; background: #111; color: #fff; box-sizing: border-box; font-size: 16px; }
         input:focus { outline: none; border-color: #7928ca; box-shadow: 0 0 8px #7928ca; }
+        
+        /* YouTube Buttons & Links */
+        .yt-btn-header { display: flex; align-items: center; justify-content: center; background: #ff0000; padding: 10px 20px; border-radius: 30px; text-decoration: none; color: white; font-weight: bold; gap: 10px; box-shadow: 0 0 15px rgba(255,0,0,0.5); width: max-content; margin: 0 auto 15px auto; transition: 0.3s; }
+        .yt-btn-header:hover { transform: scale(1.05); }
+        .get-pass-link { display: block; text-align: center; margin-top: 15px; color: #00ffcc; text-decoration: none; font-size: 14px; font-weight: bold; }
+        .get-pass-link:hover { text-decoration: underline; text-shadow: 0 0 5px #00ffcc; }
         
         /* Main Action Buttons */
         .action-btn { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: none; font-size: 16px; background: linear-gradient(45deg, #7928ca, #ff007f); color: #fff; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
         .action-btn:hover { box-shadow: 0 0 15px #ff007f; }
-        
-        /* Custom Sliders */
-        .slider-container { display: flex; align-items: center; gap: 15px; margin: 15px 0; }
-        input[type="range"] { flex: 1; accent-color: #ff007f; }
         
         /* Navigation Tabs */
         .nav { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 20px; }
         .nav button { flex: 1; min-width: 45%; background: #222; border: 1px solid #333; color: #aaa; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 12px; }
         .nav button.active { background: linear-gradient(45deg, #7928ca, #ff007f); color: #fff; border-color: transparent; }
         
-        /* Output Console */
+        /* Output Console & Grid */
         .console-output { background: rgba(0,0,0,0.8); padding: 15px; color: #00ffcc; white-space: pre-wrap; border-radius: 8px; border-left: 4px solid #ff007f; line-height: 1.6; font-size: 14px; font-family: monospace; }
-        
-        /* Grid for Youtubers */
         .yt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .yt-btn { background: #1a1a24; border: 1px solid #555; padding: 12px; color: #fff; border-radius: 6px; font-weight: bold; cursor: pointer; }
         .yt-btn:hover { background: #7928ca; border-color: #ff007f; }
@@ -68,6 +73,7 @@
 <div id="fov-circle"></div>
 <div id="crosshair-dot"></div>
 
+<!-- Draggable Floating Mod Menu -->
 <div id="floating-menu">
     <div id="fm-header">
         <span id="fm-logo" onclick="toggleFloatingBody()">TRIPSY PANEL</span>
@@ -85,17 +91,22 @@
     </div>
 </div>
 
+<!-- Login Screen -->
 <div id="login-screen" class="page center-screen" style="display: flex;">
     <div class="box">
-        <h2 class="animated-title">TRIPSY PRO SEC</h2>
+        <a href="https://youtube.com/@trispycheats?si=m1uRYsWHh7_TPuK2" target="_blank" class="yt-btn-header">SUBSCRIBE</a>
+        <h2 class="animated-title title-font">TRIPSY CHEATS</h2>
         <input type="text" id="user" placeholder="Username">
         <input type="password" id="pass" placeholder="Password">
         <button class="action-btn" onclick="login()">INJECT PANEL</button>
+        <a href="https://youtube.com/@trispycheats?si=m1uRYsWHh7_TPuK2" target="_blank" class="get-pass-link">Get Password On Channel</a>
     </div>
 </div>
 
+<!-- Main App -->
 <div id="main-app" class="page">
-    <h1 class="animated-title">TRIPSY PREMIUM</h1>
+    <a href="https://youtube.com/@trispycheats?si=m1uRYsWHh7_TPuK2" target="_blank" class="yt-btn-header">SUBSCRIBE</a>
+    <h1 class="animated-title title-font">TRIPSY CHEATS</h1>
     
     <div class="nav">
         <button class="active" id="btn-sensi" onclick="showTab('sensi-tab', 'btn-sensi')">AI Sensi</button>
@@ -104,6 +115,7 @@
         <button id="btn-menu" onclick="showTab('menu-tab', 'btn-menu')">Mod Menu</button>
     </div>
 
+    <!-- AI Sensi Tab -->
     <div id="sensi-tab" class="tab">
         <div class="box">
             <h3 style="margin-top:0; color:#ff007f;">AI Hardware Scan</h3>
@@ -113,6 +125,7 @@
         </div>
     </div>
 
+    <!-- Pro Youtubers Tab -->
     <div id="pro-tab" class="tab" style="display:none;">
         <div class="box">
             <h3 style="margin-top:0; color:#ff007f;">Pro Player Configs</h3>
@@ -126,6 +139,7 @@
         </div>
     </div>
 
+    <!-- FOV & Crosshair Tab -->
     <div id="fov-tab" class="tab" style="display:none;">
         <div class="box">
             <h3 style="margin-top:0; color:#ff007f;">FOV Controller</h3>
@@ -144,6 +158,7 @@
         </div>
     </div>
 
+    <!-- Menu Manager Tab -->
     <div id="menu-tab" class="tab" style="display:none;">
         <div class="box text-center">
             <h3 style="margin-top:0; color:#ff007f;">Floating Window Manager</h3>
@@ -180,12 +195,10 @@
     }
 
     function toggleFloatingBody() {
-        // Hides the options, shows only the logo header
         fBody.style.display = fBody.style.display === 'none' ? 'flex' : 'none';
     }
 
     function closeFloatingMenu() {
-        // Hides the entire window and turns off all active cheats
         fMenu.style.display = 'none';
         modBtns.forEach(dot => {
             dot.classList.remove('active');
@@ -210,8 +223,6 @@
     header.addEventListener("mousedown", dragStart);
     document.addEventListener("mousemove", drag);
     document.addEventListener("mouseup", dragEnd);
-    
-    // Mobile Touch Support
     header.addEventListener("touchstart", dragStart, {passive: false});
     document.addEventListener("touchmove", drag, {passive: false});
     document.addEventListener("touchend", dragEnd);
