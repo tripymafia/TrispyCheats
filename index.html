@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tripsy Cheats - Premium</title>
+<title>Tripsy Cheats - Premium Sensi</title>
 <style>
 /* Base Styles */
 body { margin: 0; padding: 0; background: #0b0b0c; color: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
@@ -17,7 +17,7 @@ body { margin: 0; padding: 0; background: #0b0b0c; color: #ffffff; font-family: 
 :root { --primary-color: #ff007f; --accent-color: #9d00ff; --card-bg: rgba(28, 28, 33, 0.85); }
 
 /* --- Login Screen --- */
-#login-screen { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+#login-screen { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; z-index: 10; }
 .login-box { background: var(--card-bg); padding: 40px 30px; border-radius: 15px; border: 1px solid var(--accent-color); box-shadow: 0 0 25px rgba(157, 0, 255, 0.4); text-align: center; width: 80%; max-width: 350px; backdrop-filter: blur(5px); }
 .login-box h2 { color: var(--primary-color); margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px; }
 .login-box input { width: 90%; padding: 14px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #0b0b0c; color: #fff; outline: none; font-size: 15px; }
@@ -25,12 +25,13 @@ body { margin: 0; padding: 0; background: #0b0b0c; color: #ffffff; font-family: 
 .login-box button:hover { opacity: 0.8; }
 
 /* --- Main Application --- */
-#main-app { display: none; max-width: 600px; margin: 0 auto; padding: 20px; }
+#main-app { display: none; max-width: 600px; margin: 0 auto; padding: 20px; position: relative; z-index: 10; }
 header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #2a2a30; }
 
-/* SHINY TITLE ANIMATION */
-.shiny-title { margin: 0; font-size: 26px; font-weight: bold; text-transform: uppercase; background: linear-gradient(90deg, #ff007f, #ffffff, #9d00ff, #ff007f); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; }
+/* SHINY TITLE ANIMATION (Fixed for all browsers) */
+.shiny-title { margin: 0; font-size: 26px; font-weight: bold; text-transform: uppercase; background: linear-gradient(90deg, #ff007f, #ffffff, #9d00ff, #ff007f); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; animation: shine 3s linear infinite; }
 @keyframes shine { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+
 .yt-icon { font-size: 13px; font-weight: bold; color: white; text-decoration: none; background: red; padding: 8px 12px; border-radius: 20px; display: flex; align-items: center; gap: 5px; box-shadow: 0 0 10px red; }
 
 /* Navigation Tabs */
@@ -102,7 +103,6 @@ header { display: flex; justify-content: space-between; align-items: center; mar
 
 <div id="star-container"></div>
 
-<!-- Simulated Visual Overlays -->
 <div id="esp-top" class="esp-arrow">⬆️</div>
 <div id="esp-bottom" class="esp-arrow">⬇️</div>
 <div id="esp-left" class="esp-arrow">⬅️</div>
@@ -111,7 +111,6 @@ header { display: flex; justify-content: space-between; align-items: center; mar
 
 <div id="autoplay-overlay">🤖 BOT: TAKING CONTROL 🤖<br><span id="ap-timer">5</span></div>
 
-<!-- 1. LOGIN SCREEN -->
 <div id="login-screen">
     <div class="login-box">
         <h2>Security Login</h2>
@@ -121,7 +120,6 @@ header { display: flex; justify-content: space-between; align-items: center; mar
     </div>
 </div>
 
-<!-- 2. MAIN APPLICATION -->
 <div id="main-app">
     <header>
         <h1 class="shiny-title">Tripsy Cheats</h1>
@@ -134,7 +132,6 @@ header { display: flex; justify-content: space-between; align-items: center; mar
         <button onclick="switchTab('settings')" id="tab-btn-settings">Settings</button>
     </div>
 
-    <!-- HOME TAB -->
     <div id="home" class="tab-content active">
         <div class="ai-box">
             <h3>AI Sensi Configuration</h3>
@@ -145,13 +142,11 @@ header { display: flex; justify-content: space-between; align-items: center; mar
         </div>
     </div>
 
-    <!-- PRO TAB -->
     <div id="pro" class="tab-content">
         <h3 style="text-align:center; color:var(--primary-color);">Top 15 Pro Player Settings (FF MAX)</h3>
         <div class="pro-grid" id="pro-list"></div>
     </div>
 
-    <!-- SETTINGS TAB -->
     <div id="settings" class="tab-content">
         <div class="setting-item">
             <span>Floating Menu / Overlays</span>
@@ -160,7 +155,7 @@ header { display: flex; justify-content: space-between; align-items: center; mar
         
         <div class="setting-item">
             <span>Red Aim Overlay</span>
-            <button onclick="toggleCrosshair(this)" id="crosshair-btn">Enable</button>
+            <button onclick="toggleCrosshairBtn(this)" id="crosshair-btn" style="background:#ff3333;">OFF</button>
         </div>
 
         <div class="setting-item">
@@ -191,7 +186,6 @@ header { display: flex; justify-content: space-between; align-items: center; mar
     </div>
 </div>
 
-<!-- 3. OVERLAYS -->
 <div id="crosshair" class="style-dot"></div>
 
 <div id="floating-widget">
@@ -239,68 +233,24 @@ header { display: flex; justify-content: space-between; align-items: center; mar
     <button onclick="hideToBubble()" style="width:100%; padding:8px; margin-top:10px; background:#ff3333; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold;">Hide Menu</button>
 </div>
 
-<!-- Click this to reopen widget -->
 <div id="minimized-bubble" onclick="restoreWidget()">
     <img src="logo.jpg" alt="Logo" onerror="this.src='https://via.placeholder.com/50/ff007f/ffffff?text=T'">
 </div>
 
 <script>
+// Safely run everything only after the HTML is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+
     // --- 1. STAR ANIMATION ---
-    for(let i=0; i<60; i++) {
-        let s = document.createElement('div');
-        s.className = 'star';
-        s.style.width = s.style.height = (Math.random()*2.5 + 1) + 'px';
-        s.style.left = Math.random()*100 + 'vw';
-        s.style.animationDuration = (Math.random()*4 + 2) + 's';
-        document.getElementById('star-container').appendChild(s);
-    }
-
-    // --- 2. LOGIN & TABS ---
-    function checkLogin() {
-        if (document.getElementById('username').value === 'Trispy' && document.getElementById('password').value === 'Trispy01') {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
-        } else {
-            alert('Find username and Password in the Channel');
-            window.location.href = "https://youtube.com/@trispycheats?si=Vv4Gz8YL7oVuie9h";
-        }
-    }
-
-    function switchTab(tabId) {
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.nav-tabs button').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        document.getElementById(`tab-btn-${tabId}`).classList.add('active');
-    }
-
-    // --- 3. REAL GROK AI FETCH LOGIC ---
-    async function fetchApiSensi() {
-        const device = document.getElementById('device-info').value.trim();
-        const resBox = document.getElementById('sensi-result');
-        
-        if (!device) {
-            resBox.innerHTML = '<span style="color:#ff3333">Please enter a device model.</span>';
-            return;
-        }
-        
-        resBox.innerHTML = '<span style="color:#ffffff;">⚡ Connecting to Premium Grok AI...</span>';
-        
-        try {
-            const response = await fetch('/api/get-sensi', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ device: device })
-            });
-
-            if (!response.ok) {
-                throw new Error('API connection failed');
-            }
-
-            const data = await response.json();
-            resBox.innerHTML = `🌟 <b>AI CONFIG FOR: ${device.toUpperCase()}</b>\n\n${data.text}`;
-            
-        } catch (error) {
-            resBox.innerHTML = '<span style="color:#ff3333">❌ Error connecting to AI. Make sure GROK_API_KEY is set in your Vercel Environment Variables.</span>';
+    const starContainer = document.getElementById('star-container');
+    if (starContainer) {
+        for(let i=0; i<60; i++) {
+            let s = document.createElement('div');
+            s.className = 'star';
+            s.style.width = s.style.height = (Math.random()*2.5 + 1) + 'px';
+            s.style.left = Math.random()*100 + 'vw';
+            s.style.animationDuration = (Math.random()*4 + 2) + 's';
+            starContainer.appendChild(s);
         }
     }
 
@@ -323,25 +273,239 @@ header { display: flex; justify-content: space-between; align-items: center; mar
         { name: 'TG Daddy', gen: 200, red: 200, zoom2: 200, zoom4: 200 }
     ];
     const proList = document.getElementById('pro-list');
-    youtubers.forEach(yt => {
-        proList.innerHTML += `<div class="yt-card"><h4>${yt.name}</h4><p>Gen: ${yt.gen} | Red: ${yt.red}<br>2x: ${yt.zoom2} | 4x: ${yt.zoom4}</p></div>`;
-    });
-
-    // --- 5. CROSSHAIR & FOV LOGIC ---
-    let currentFovScale = 1;
-    function toggleCrosshair(btn) {
-        const c = document.getElementById('crosshair');
-        if (c.style.display === 'none' || c.style.display === '') {
-            c.style.display = 'block';
-            btn.innerText = 'Disable';
-            btn.style.background = '#ff3333';
-        } else {
-            c.style.display = 'none';
-            btn.innerText = 'Enable';
-            btn.style.background = 'var(--accent-color)';
-        }
+    if (proList) {
+        youtubers.forEach(yt => {
+            proList.innerHTML += `<div class="yt-card"><h4>${yt.name}</h4><p>Gen: ${yt.gen} | Red: ${yt.red}<br>2x: ${yt.zoom2} | 4x: ${yt.zoom4}</p></div>`;
+        });
     }
 
-    function toggleCrosshairBtn(btn) {
-        const c = d</body>
+    // --- 9. DRAGGABLE LOGIC ---
+    function makeDraggable(element, handle) {
+        if (!element || !handle) return; // Saftey check
+        let isDragging = false, offsetX, offsetY;
+        
+        handle.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - element.getBoundingClientRect().left;
+            offsetY = e.clientY - element.getBoundingClientRect().top;
+        });
+        document.addEventListener('mousemove', (e) => {
+            if(isDragging) {
+                element.style.left = (e.clientX - offsetX) + 'px';
+                element.style.top = (e.clientY - offsetY) + 'px';
+            }
+        });
+        document.addEventListener('mouseup', () => isDragging = false);
+
+        handle.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            offsetX = e.touches[0].clientX - element.getBoundingClientRect().left;
+            offsetY = e.touches[0].clientY - element.getBoundingClientRect().top;
+        }, {passive: true});
+        document.addEventListener('touchmove', (e) => {
+            if(isDragging) {
+                element.style.left = (e.touches[0].clientX - offsetX) + 'px';
+                element.style.top = (e.touches[0].clientY - offsetY) + 'px';
+            }
+        }, {passive: true});
+        document.addEventListener('touchend', () => isDragging = false);
+    }
+
+    const widget = document.getElementById('floating-widget');
+    const bubble = document.getElementById('minimized-bubble');
+    makeDraggable(widget, widget);
+    makeDraggable(bubble, bubble);
+});
+
+// --- GLOBAL FUNCTIONS (Must remain outside DOMContentLoaded so buttons can trigger them) ---
+
+// --- 2. LOGIN & TABS ---
+function checkLogin() {
+    // Trims accidental spaces and ignores caps lock on 'trispy'
+    const user = document.getElementById('username').value.trim().toLowerCase();
+    const pass = document.getElementById('password').value.trim();
+
+    if (user === 'trispy' && pass === 'Trispy01') {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('main-app').style.display = 'block';
+    } else {
+        alert('Find username and Password in the Channel');
+        window.location.href = "https://youtube.com/@trispycheats?si=Vv4Gz8YL7oVuie9h";
+    }
+}
+
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.nav-tabs button').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    document.getElementById(`tab-btn-${tabId}`).classList.add('active');
+}
+
+// --- 3. REAL GROK AI FETCH LOGIC ---
+async function fetchApiSensi() {
+    const device = document.getElementById('device-info').value.trim();
+    const resBox = document.getElementById('sensi-result');
+    
+    if (!device) {
+        resBox.innerHTML = '<span style="color:#ff3333">Please enter a device model.</span>';
+        return;
+    }
+    
+    resBox.innerHTML = '<span style="color:#ffffff;">⚡ Connecting to Premium Grok AI...</span>';
+    
+    try {
+        const response = await fetch('/api/get-sensi', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ device: device })
+        });
+
+        if (!response.ok) {
+            throw new Error('API connection failed');
+        }
+
+        const data = await response.json();
+        resBox.innerHTML = `🌟 <b>AI CONFIG FOR: ${device.toUpperCase()}</b>\n\n${data.text}`;
+        
+    } catch (error) {
+        resBox.innerHTML = '<span style="color:#ff3333">❌ Error connecting to AI. Make sure GROK_API_KEY is set in your Vercel Environment Variables.</span>';
+    }
+}
+
+// --- 5. CROSSHAIR & FOV LOGIC ---
+let currentFovScale = 1;
+function toggleCrosshairBtn(btn) {
+    const c = document.getElementById('crosshair');
+    if (btn.innerText === 'OFF') {
+        c.style.display = 'block';
+        btn.innerText = 'ON';
+        btn.style.background = 'var(--accent-color)';
+    } else {
+        c.style.display = 'none';
+        btn.innerText = 'OFF';
+        btn.style.background = '#ff3333';
+    }
+}
+
+function changeCrosshairStyle(style) {
+    document.getElementById('crosshair').className = style;
+}
+
+function updateFov(val) {
+    currentFovScale = val / 100;
+    const fov1 = document.getElementById('fov-display');
+    const fov2 = document.getElementById('fov-display-float');
+    if(fov1) fov1.innerText = currentFovScale.toFixed(1) + 'x';
+    if(fov2) fov2.innerText = currentFovScale.toFixed(1) + 'x';
+    document.getElementById('crosshair').style.transform = `translate(-50%, -50%) scale(${currentFovScale})`;
+}
+
+// --- 6. ADVANCED RADAR / ESP SIMULATION ---
+let espInterval;
+function toggleEspWarning(btn) {
+    const warning = document.getElementById('enemy-warning');
+    const distText = document.getElementById('esp-distance');
+    const arrows = {
+        'TOP': document.getElementById('esp-top'),
+        'BOTTOM': document.getElementById('esp-bottom'),
+        'LEFT': document.getElementById('esp-left'),
+        'RIGHT': document.getElementById('esp-right')
+    };
+
+    if(btn.innerText === 'OFF') {
+        btn.innerText = 'ON';
+        btn.style.background = 'var(--accent-color)';
+        
+        espInterval = setInterval(() => {
+            Object.values(arrows).forEach(a => a.style.display = 'none');
+            
+            const dirs = ['TOP', 'BOTTOM', 'LEFT', 'RIGHT'];
+            const distances = ['(FAR: 45m)', '(MID: 20m)', '(CLOSE: 5m!)'];
+            
+            const dir = dirs[Math.floor(Math.random() * dirs.length)];
+            const dist = distances[Math.floor(Math.random() * distances.length)];
+            
+            distText.innerText = `${dir} ${dist}`;
+            warning.style.display = 'block';
+            arrows[dir].style.display = 'block';
+            
+            setTimeout(() => { 
+                warning.style.display = 'none'; 
+                arrows[dir].style.display = 'none'; 
+            }, 2000); 
+
+        }, 4000); 
+    } else {
+        btn.innerText = 'OFF';
+        btn.style.background = '#444';
+        clearInterval(espInterval);
+        warning.style.display = 'none';
+        Object.values(arrows).forEach(a => a.style.display = 'none');
+    }
+}
+
+function toggleMockBtn(btn) {
+    if(btn.innerText === 'OFF') {
+        btn.innerText = 'ON';
+        btn.style.background = 'var(--accent-color)';
+    } else {
+        btn.innerText = 'OFF';
+        btn.style.background = '#444';
+    }
+}
+
+// --- 7. AUTO-PLAY SIMULATION ---
+function triggerAutoPlay(btn) {
+    if(btn.innerText === 'OFF') {
+        btn.innerText = 'ON';
+        btn.style.background = 'var(--accent-color)';
+        btn.disabled = true; 
+        
+        const overlay = document.getElementById('autoplay-overlay');
+        const timer = document.getElementById('ap-timer');
+        overlay.style.display = 'block';
+        
+        let timeLeft = 5;
+        timer.innerText = timeLeft + "s";
+        
+        const countdown = setInterval(() => {
+            timeLeft--;
+            if(timeLeft > 0) {
+                timer.innerText = timeLeft + "s";
+            } else {
+                clearInterval(countdown);
+                overlay.style.display = 'none';
+                btn.innerText = 'OFF';
+                btn.style.background = '#444';
+                btn.disabled = false;
+            }
+        }, 1000);
+    }
+}
+
+// --- 8. FLOATING WIDGET VISIBILITY ---
+function showFloatingWidget() {
+    document.getElementById('floating-widget').style.display = 'block';
+    document.getElementById('minimized-bubble').style.display = 'none';
+}
+
+function hideToBubble() {
+    const w = document.getElementById('floating-widget');
+    const b = document.getElementById('minimized-bubble');
+    b.style.left = w.style.left || '5%';
+    b.style.top = w.style.top || '15%';
+    w.style.display = 'none';
+    b.style.display = 'block';
+}
+
+function restoreWidget() {
+    const w = document.getElementById('floating-widget');
+    const b = document.getElementById('minimized-bubble');
+    w.style.left = b.style.left;
+    w.style.top = b.style.top;
+    b.style.display = 'none';
+    w.style.display = 'block';
+}
+</script>
+</body>
 </html>
