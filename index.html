@@ -1,42 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tripsy Cheats - Premium Sensi</title>
-    <script>
-    // USE THIS UPDATED FETCH FUNCTION INSIDE YOUR SCRIPT TAGS
-    async function fetchApiSensi() {
-        const device = document.getElementById('device-info').value.trim();
-        const resBox = document.getElementById('sensi-result');
-        
-        if (!device) {
-            resBox.innerHTML = 'Please enter a device model.';
-            return;
-        }
-        
-        resBox.innerHTML = '⚡ Connecting...';
-        
-        try {
-            const response = await fetch('/api/get-sensi', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ device: device })
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                resBox.innerHTML = `🌟 <b>AI CONFIG:</b>\n\n${data.text}`;
-            } else {
-                resBox.innerHTML = `<span style="color:#ff3333">❌ ${data.text}</span>`;
-            }
-        } catch (error) {
-            resBox.innerHTML = '<span style="color:#ff3333">❌ Connection Error.</span>';
-        }
-    }
-    </script>
+    <title>Tripsy Test</title>
 </head>
-<body>
-    </body>
+<body style="background: black; color: white;">
+    <h1>Tripsy is Working!</h1>
+    <input type="text" id="device" placeholder="Enter device">
+    <button onclick="test()">Test</button>
+    <p id="output"></p>
+
+    <script>
+        function test() {
+            document.getElementById('output').innerText = "Working!";
+        }
+    </script>
+</body>
 </html>
