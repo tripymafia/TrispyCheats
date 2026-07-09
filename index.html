@@ -1,21 +1,27 @@
-    async function testAi() {
-        const dev = document.getElementById('dev').value;
-        const res = document.getElementById('res');
-        res.innerText = "Connecting...";
-        
-        try {
-            const r = await fetch('/api/get-sensi', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ device: dev })
-            });
-            
-            // Get the text first instead of parsing JSON immediately
-            const rawText = await r.text();
-            res.innerText = "Raw Response: " + rawText;
-            
-        } catch(e) { 
-            res.innerText = "Error: " + e.message; 
+<!DOCTYPE html>
+<html>
+<body>
+    <input type="text" id="dev" placeholder="Phone Model">
+    <button onclick="testAi()">Test AI</button>
+    <div id="res">Waiting...</div>
+
+    <script>
+        async function testAi() {
+            const dev = document.getElementById('dev').value;
+            const res = document.getElementById('res');
+            res.innerText = "Connecting...";
+            try {
+                const r = await fetch('/api/get-sensi', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ device: dev })
+                });
+                const rawText = await r.text();
+                res.innerText = "Raw Response: " + rawText;
+            } catch(e) { 
+                res.innerText = "Error: " + e.message; 
+            }
         }
-    }
-    
+    </script>
+</body>
+</html>
