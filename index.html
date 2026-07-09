@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tripsy Cheats</title>
+    <title>Tripsy Cheats - Premium</title>
     <style>
         body { margin: 0; background: #0b0b0c; color: #fff; font-family: sans-serif; }
-        .page { padding: 20px; }
-        #main-app { display: none; }
-        .box { background: #1c1c21; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #333; }
-        input, button { width: 100%; padding: 15px; margin: 5px 0; border-radius: 8px; border: none; font-size: 16px; box-sizing: border-box; }
+        .page { padding: 20px; display: none; }
+        #login-screen { display: flex; height: 100vh; justify-content: center; align-items: center; }
+        .box { background: #1c1c21; padding: 20px; border-radius: 10px; border: 1px solid #333; width: 100%; max-width: 400px; }
+        input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; border: none; box-sizing: border-box; }
         button { background: #ff007f; color: white; cursor: pointer; font-weight: bold; }
+        .nav { display: flex; gap: 5px; margin-bottom: 20px; }
+        .nav button { flex: 1; background: #333; }
+        .nav button.active { background: #ff007f; }
         #res { background: #000; padding: 15px; margin-top: 10px; color: #00ffcc; white-space: pre-wrap; border-radius: 5px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div id="login-screen" class="page">
+<div id="login-screen" class="page" style="display: flex;">
     <div class="box">
         <h2>Security Login</h2>
         <input type="text" id="user" placeholder="Username">
@@ -27,10 +30,25 @@
 
 <div id="main-app" class="page">
     <h1>Tripsy Cheats</h1>
-    <div class="box">
-        <input type="text" id="dev" placeholder="Enter Phone Model">
-        <button onclick="calc()">Get Best Settings</button>
-        <div id="res">Ready...</div>
+    <div class="nav">
+        <button class="active" id="b1" onclick="show('home', 'b1')">Sensi</button>
+        <button id="b2" onclick="show('cheats', 'b2')">ESP/Cheats</button>
+    </div>
+
+    <div id="home" class="tab">
+        <div class="box">
+            <input type="text" id="dev" placeholder="Phone Model">
+            <button onclick="calc()">Get Best Settings</button>
+            <div id="res">Ready...</div>
+        </div>
+    </div>
+
+    <div id="cheats" class="tab" style="display:none;">
+        <div class="box">
+            <button onclick="alert('ESP Radar Enabled')">Toggle ESP Radar</button>
+            <button onclick="alert('Aim Assist Enabled')">Toggle Aim Assist</button>
+            <button onclick="alert('Auto-Headshot Enabled')">Auto-Headshot</button>
+        </div>
     </div>
 </div>
 
@@ -42,11 +60,17 @@
         } else { alert('Access Denied!'); }
     }
 
+    function show(id, btnId) {
+        document.querySelectorAll('.tab').forEach(t => t.style.display = 'none');
+        document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).style.display = 'block';
+        document.getElementById(btnId).classList.add('active');
+    }
+
     async function calc() {
         const device = document.getElementById('dev').value.trim();
         const res = document.getElementById('res');
         if(!device) return alert('Enter model');
-        
         res.innerText = "⚡ Analyzing...";
         try {
             const r = await fetch('/api/get-sensi', {
@@ -56,7 +80,7 @@
             });
             const d = await r.json();
             res.innerText = d.text;
-        } catch(e) { res.innerText = "Error: API connection failed."; }
+        } catch(e) { res.innerText = "Error: Connection failed."; }
     }
 </script>
 </body>
