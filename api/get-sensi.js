@@ -1,9 +1,18 @@
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).json({ text: 'Method not allowed' });
+  res.setHeader('Content-Type', 'application/json');
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ text: 'Error: Method not allowed' });
+  }
 
   try {
     const { device } = JSON.parse(req.body);
-    const apiKey = process.env.GROQ_API_KEY; // Ensure this is set in Vercel Settings
+    // This now looks for the new variable name
+    const apiKey = process.env.GROQ_API_KEY; 
+
+    if (!apiKey) {
+      return res.status(500).json({ text: "Error: GROQ_API_KEY is not set in Vercel." });
+    }
 
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
