@@ -1,12 +1,17 @@
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).json({ text: 'Method not allowed' });
+  // Always return JSON, even if it's an error
+  res.setHeader('Content-Type', 'application/json');
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ text: 'Error: Method not allowed' });
+  }
 
   try {
     const { device } = JSON.parse(req.body);
     const apiKey = process.env.GROQ_API_KEY;
 
     if (!apiKey) {
-      return res.status(500).json({ text: "Error: GROQ_API_KEY environment variable is not found on the server." });
+      return res.status(500).json({ text: "Error: GROQ_API_KEY is missing." });
     }
 
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -29,10 +34,9 @@ export default async function handler(req, res) {
     if (data.choices && data.choices[0]) {
         return res.status(200).json({ text: data.choices[0].message.content });
     } else {
-        return res.status(500).json({ text: "Grok API returned: " + JSON.stringify(data) });
+        return res.status(500).json({ text: "Error: AI response empty." });
     }
-    
   } catch (error) {
-    return res.status(500).json({ text: "Fetch failed: " + error.message });
+    return res.status(500).json({ text: "Error: " + error.message });
   }
 }
