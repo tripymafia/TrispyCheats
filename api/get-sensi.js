@@ -1,5 +1,4 @@
 export default async function handler(req, res) {
-  // Always return JSON, even if it's an error
   res.setHeader('Content-Type', 'application/json');
 
   if (req.method !== 'POST') {
@@ -11,7 +10,7 @@ export default async function handler(req, res) {
     const apiKey = process.env.GROQ_API_KEY;
 
     if (!apiKey) {
-      return res.status(500).json({ text: "Error: GROQ_API_KEY is missing." });
+      return res.status(500).json({ text: "Error: API Key is missing in Vercel settings." });
     }
 
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -23,8 +22,8 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: "llama3-8b-8192",
         messages: [
-          { role: "system", content: "You are a gaming expert." },
-          { role: "user", content: `Give the best Free Fire Max sensitivity (Scale 0-200) for: ${device}.` }
+          { role: "system", content: "You are a professional gamer. Provide FF Max sensitivity (0-200) and a tip." },
+          { role: "user", content: `Best sensitivity for ${device}.` }
         ]
       })
     });
