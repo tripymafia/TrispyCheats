@@ -28,7 +28,7 @@ body { margin: 0; padding: 0; background: #0b0b0c; color: #ffffff; font-family: 
 #main-app { display: none; max-width: 600px; margin: 0 auto; padding: 20px; position: relative; z-index: 10; }
 header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #2a2a30; }
 
-/* SHINY TITLE ANIMATION (Fixed for all browsers) */
+/* SHINY TITLE ANIMATION */
 .shiny-title { margin: 0; font-size: 26px; font-weight: bold; text-transform: uppercase; background: linear-gradient(90deg, #ff007f, #ffffff, #9d00ff, #ff007f); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; animation: shine 3s linear infinite; }
 @keyframes shine { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
 
@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 9. DRAGGABLE LOGIC ---
     function makeDraggable(element, handle) {
-        if (!element || !handle) return; // Saftey check
+        if (!element || !handle) return; 
         let isDragging = false, offsetX, offsetY;
         
         handle.addEventListener('mousedown', (e) => {
@@ -317,11 +317,10 @@ document.addEventListener('DOMContentLoaded', () => {
     makeDraggable(bubble, bubble);
 });
 
-// --- GLOBAL FUNCTIONS (Must remain outside DOMContentLoaded so buttons can trigger them) ---
+// --- GLOBAL FUNCTIONS ---
 
 // --- 2. LOGIN & TABS ---
 function checkLogin() {
-    // Trims accidental spaces and ignores caps lock on 'trispy'
     const user = document.getElementById('username').value.trim().toLowerCase();
     const pass = document.getElementById('password').value.trim();
 
@@ -341,7 +340,7 @@ function switchTab(tabId) {
     document.getElementById(`tab-btn-${tabId}`).classList.add('active');
 }
 
-// --- 3. REAL GROK AI FETCH LOGIC ---
+// --- 3. REAL GROK AI FETCH LOGIC WITH DETAILED ERRORS ---
 async function fetchApiSensi() {
     const device = document.getElementById('device-info').value.trim();
     const resBox = document.getElementById('sensi-result');
@@ -360,15 +359,18 @@ async function fetchApiSensi() {
             body: JSON.stringify({ device: device })
         });
 
-        if (!response.ok) {
-            throw new Error('API connection failed');
-        }
-
         const data = await response.json();
-        resBox.innerHTML = `🌟 <b>AI CONFIG FOR: ${device.toUpperCase()}</b>\n\n${data.text}`;
+
+        // This checks if the server script successfully returned a 200 OK status
+        if (response.ok) {
+            resBox.innerHTML = `🌟 <b>AI CONFIG FOR: ${device.toUpperCase()}</b>\n\n${data.text}`;
+        } else {
+            // This will print the EXACT error from the server to your screen
+            resBox.innerHTML = `<span style="color:#ff3333">❌ ${data.text}</span>`;
+        }
         
     } catch (error) {
-        resBox.innerHTML = '<span style="color:#ff3333">❌ Error connecting to AI. Make sure GROK_API_KEY is set in your Vercel Environment Variables.</span>';
+        resBox.innerHTML = `<span style="color:#ff3333">❌ Network Error: Failed to reach the Vercel API. Make sure the /api folder is deployed.</span>`;
     }
 }
 
