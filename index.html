@@ -3,50 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tripsy Cheats - Premium</title>
+    <title>Tripsy Sensi - Pro Security</title>
     <style>
-        body { margin: 0; background: #0a0a0c; color: #eaeaea; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        /* Base & Star Background */
+        body { 
+            margin: 0; background: #0b0b0c; color: #fff; font-family: 'Segoe UI', sans-serif; overflow-x: hidden;
+        }
+        .stars {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background: #000 url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxIiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iMTUwIiBjeT0iMTUwIiByPSIxLjUiIGZpbGw9IiNmZmYiLz48Y2lyY2xlIGN4PSIzMDAiIGN5PSI4MCIgcj0iMiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==') repeat top center;
+            animation: move-twink-back 150s linear infinite;
+        }
+        @keyframes move-twink-back { from {background-position:0 0;} to {background-position:-10000px 5000px;} }
+        
         .page { padding: 20px; display: none; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
+        /* Containers */
         #login-screen { display: flex; height: 100vh; justify-content: center; align-items: center; flex-direction: column; }
+        .box { background: rgba(20, 20, 25, 0.85); backdrop-filter: blur(5px); padding: 25px; border-radius: 15px; border: 1px solid #7928ca; box-shadow: 0 0 20px rgba(121, 40, 202, 0.4); width: 100%; max-width: 400px; position: relative; }
         
-        /* Premium Purple & Luxury Styling */
-        .box { background: #15151a; padding: 25px; border-radius: 12px; border: 1px solid #4a148c; box-shadow: 0 4px 20px rgba(74, 20, 140, 0.4); width: 100%; max-width: 400px; }
-        h1, h2 { text-align: center; color: #ffd700; margin-top: 0; text-transform: uppercase; letter-spacing: 1px; }
+        /* Animated Texture Text */
+        .animated-title {
+            font-size: 2.2rem; font-weight: 900; text-align: center; text-transform: uppercase; margin-top: 0;
+            background: linear-gradient(to right, #ff007f, #7928ca, #00d2ff, #7928ca, #ff007f);
+            background-size: 200% auto; color: #fff; background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+
+        /* Pro Security Badge */
+        .pro-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #ff007f; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; letter-spacing: 1px; box-shadow: 0 0 10px #ff007f; }
+
+        /* Inputs & Buttons */
+        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: 1px solid #444; background: #111; color: #fff; box-sizing: border-box; font-size: 16px; }
+        input:focus { outline: none; border-color: #7928ca; box-shadow: 0 0 8px #7928ca; }
         
-        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #0a0a0c; color: #fff; box-sizing: border-box; font-size: 16px; }
-        input:focus { outline: none; border-color: #9c27b0; }
+        button { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: none; font-size: 16px; box-sizing: border-box; background: linear-gradient(45deg, #7928ca, #ff007f); color: #fff; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
+        button:hover { box-shadow: 0 0 15px #ff007f; transform: scale(1.02); }
         
-        button { width: 100%; padding: 15px; margin: 10px 0; border-radius: 8px; border: none; font-size: 16px; box-sizing: border-box; background: linear-gradient(45deg, #6a1b9a, #9c27b0); color: #fff; cursor: pointer; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
-        button:hover { box-shadow: 0 0 10px #9c27b0; }
-        
-        .nav { display: flex; gap: 8px; margin-bottom: 25px; }
+        /* Tabs */
+        .nav { display: flex; gap: 8px; margin-bottom: 20px; }
         .nav button { margin: 0; background: #222; color: #aaa; box-shadow: none; font-size: 14px; padding: 12px; }
-        .nav button.active { background: linear-gradient(45deg, #ffd700, #ffb300); color: #15151a; font-weight: 900; box-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+        .nav button.active { background: linear-gradient(45deg, #7928ca, #ff007f); color: #fff; }
         
-        #res { background: #000; padding: 20px; margin-top: 15px; color: #e0b0ff; white-space: pre-wrap; border-radius: 8px; font-weight: bold; border-left: 4px solid #ffd700; line-height: 1.5; }
+        /* AI Result Box */
+        #res { background: rgba(0,0,0,0.7); padding: 20px; margin-top: 15px; color: #00ffcc; white-space: pre-wrap; border-radius: 8px; border-left: 4px solid #ff007f; line-height: 1.6; font-size: 15px; }
         
         .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        
+        /* YouTube Logo Header */
+        .header-top { width: 100%; display: flex; justify-content: center; margin-bottom: 20px; }
+        .yt-logo { display: flex; align-items: center; justify-content: center; background: #ff0000; padding: 10px 20px; border-radius: 30px; text-decoration: none; color: white; font-weight: bold; gap: 10px; box-shadow: 0 0 15px rgba(255,0,0,0.5); transition: 0.3s; }
+        .yt-logo:hover { transform: scale(1.05); }
     </style>
 </head>
 <body>
 
-<!-- Security Login Screen -->
+<div class="stars"></div>
+
+<!-- Pro Security Login -->
 <div id="login-screen" class="page" style="display: flex;">
     <div class="box">
-        <h2>Security Login</h2>
+        <div class="pro-badge">PRO SEC V2</div>
+        <h2 class="animated-title">TRIPSY LOGIN</h2>
         <input type="text" id="user" placeholder="Username">
         <input type="password" id="pass" placeholder="Password">
-        <button onclick="check()">UNLOCK ACCESS</button>
+        <button onclick="check()">INJECT LOGIN</button>
     </div>
 </div>
 
 <!-- Main Application -->
 <div id="main-app" class="page">
-    <h1>Tripsy Premium</h1>
     
-    <!-- Navigation Tabs -->
+    <div class="header-top">
+        <a href="https://youtube.com" target="_blank" class="yt-logo">
+            <svg viewBox="0 0 24 24" fill="white" width="24px" height="24px"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+            SUBSCRIBE
+        </a>
+    </div>
+
+    <h1 class="animated-title">TRIPSY SENSI</h1>
+    
     <div class="nav">
         <button class="active" id="btn-sensi" onclick="showTab('sensi-tab', 'btn-sensi')">AI Sensi</button>
         <button id="btn-esp" onclick="showTab('esp-tab', 'btn-esp')">ESP/Aim</button>
@@ -56,9 +94,9 @@
     <!-- AI Sensitivity Tab -->
     <div id="sensi-tab" class="tab">
         <div class="box">
-            <input type="text" id="dev" placeholder="Enter Phone Model (e.g. iPhone 13)">
-            <button onclick="calc()">Generate Sensi</button>
-            <div id="res">Awaiting Device Input...</div>
+            <input type="text" id="dev" placeholder="Enter Device (e.g. Realme, iPhone)">
+            <button onclick="calc()">GENERATE PRO SENSI</button>
+            <div id="res">Waiting for device...</div>
         </div>
     </div>
 
@@ -74,30 +112,24 @@
         </div>
     </div>
 
-    <!-- Crosshair & Settings Tab -->
+    <!-- Crosshair Tab -->
     <div id="cross-tab" class="tab" style="display:none;">
         <div class="box">
-            <input type="color" id="cross-color" value="#ffd700" style="height: 50px; padding: 5px;">
-            <button onclick="applyCrosshair()">Apply Crosshair Color</button>
-            <button onclick="alert('Settings Saved Successfully!')" style="background: #333;">Save All Settings</button>
+            <h3 style="text-align:center; color:#fff; margin-top:0;">Crosshair Color</h3>
+            <input type="color" id="cross-color" value="#ff007f" style="height: 60px; padding: 0; border:none; border-radius: 8px;">
+            <button onclick="applyCrosshair()">Inject Crosshair</button>
         </div>
     </div>
 </div>
 
 <script>
-    // 1. Security Login Logic
     function check() {
-        const u = document.getElementById('user').value.trim();
-        const p = document.getElementById('pass').value.trim();
-        if(u === 'Trispy' && p === 'Trispy01') {
+        if(document.getElementById('user').value === 'Trispy' && document.getElementById('pass').value === 'Trispy01') {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
-        } else { 
-            alert('Access Denied! Incorrect Username or Password.'); 
-        }
+        } else { alert('Pro Sec: Access Denied!'); }
     }
 
-    // 2. Tab Switching Logic
     function showTab(tabId, btnId) {
         document.querySelectorAll('.tab').forEach(t => t.style.display = 'none');
         document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
@@ -105,13 +137,12 @@
         document.getElementById(btnId).classList.add('active');
     }
 
-    // 3. AI Fetch Logic (Short Response Version)
     async function calc() {
         const device = document.getElementById('dev').value.trim();
         const res = document.getElementById('res');
-        if(!device) return alert('Please enter a device model first.');
+        if(!device) return alert('Please enter a device model!');
         
-        res.innerText = "⚡ Analyzing Optimal Settings...";
+        res.innerText = "⚡ Connecting to AI Engine...";
         try {
             const r = await fetch('/api/get-sensi', {
                 method: 'POST',
@@ -121,11 +152,10 @@
             const d = await r.json();
             res.innerText = d.text;
         } catch(e) { 
-            res.innerText = "Error: API connection failed. Please check Vercel limits."; 
+            res.innerText = "Error: Connection failed. Check Vercel."; 
         }
     }
 
-    // 4. Feature Toggle Logic for UI
     function toggleFeature(btn, featureName) {
         if (btn.style.background === 'green') {
             btn.style.background = '';
@@ -136,10 +166,9 @@
         }
     }
 
-    // 5. Crosshair Alert Logic
     function applyCrosshair() {
         const color = document.getElementById('cross-color').value;
-        alert('Custom Crosshair injected with color: ' + color);
+        alert('Crosshair injected with color: ' + color);
     }
 </script>
 </body>
