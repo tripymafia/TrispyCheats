@@ -1,62 +1,44 @@
-import OpenAI from "openai";
+export default async function handler(req, res) {
+  // Only allow POST requests
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
-// Initialize the client with Grok's Base URL and your new API Key
-const openai = new OpenAI({
-  apiKey: process.env.grok_api_key || process.env.GROK_API_KEY, 
-  baseURL: "https://api.x.ai/v1",
-});
-
-export async function POST(req) {
   try {
-    // 1. Parse and validate incoming request data
-    const body = await req.json();
-    const { message } = body;
+    const { device } = JSON.parse(req.body);
+    const apiKey = process.env.GROK_API_KEY;
 
-    if (!message) {
-      return new Response(JSON.stringify({ error: "Message input is missing" }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-
-    // 2. Request configuration for Grok
-    const response = await openai.chat.completions.create({
-      model: "grok-2-1212", 
-      messages: [
-        { 
-          role: "system", 
-          content: "You are an expert gaming assistant specializing in optimizing game sensitivity configurations and device performance settings." 
-        },
-        { role: "user", content: message }
-      ],
-      temperature: 0.6, // Balanced creativity and accuracy
+    // Connect to Grok API directly
+    const response = await fetch("https://api.x.ai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: "grok-2-1212",
+        messages: [
+          {
+            role: "system",
+            content: "You are an elite Free Fire Max expert. Provide premium, accurate sensitivity settings (0-200 scale) for specific mobile devices."
+          },
+          { 
+            role: "user", 
+            content: `Give the best Free Fire Max sensitivity (Scale 0-200) for the device: ${device}. Format cleanly with General, Red Dot, 2x, 4x, and one pro tip.` 
+          }
+        ]
+      })
     });
 
-    // 3. Extract output and return successful response
-    const replyText = response.choices[0]?.message?.content || "No response generated.";
+    const data = await response.json();
     
-    return new Response(JSON.stringify({ text: replyText }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
-
+    if (data.choices && data.choices.length > 0) {
+        res.status(200).json({ text: data.choices[0].message.content });
+    } else {
+        res.status(500).json({ text: "AI Error: Could not generate settings." });
+    }
+    
   } catch (error) {
-    // Detailed logging to help track down runtime environment issues
-    console.error("Pro-Mode API Error Log:", {
-      message: error.message,
-      stack: error.stack,
-      status: error.status
-    });
-
-    return new Response(
-      JSON.stringify({ 
-        error: "Server Error", 
-        message: error.message || "An unexpected error occurred." 
-      }), 
-      {
-        status: error.status || 500,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    res.status(500).json({ text: "Server Error: Unable to connect to Grok AI." });
   }
 }
