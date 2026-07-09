@@ -1,49 +1,55 @@
 export default async function handler(req, res) {
-  // 1. CORS & METHOD SECURITY
   if (req.method !== 'POST') {
-    return res.status(405).json({ text: "⚠️ ERROR: Only POST requests allowed." });
+    return res.status(405).json({ text: "⚠️ ERROR: Method not allowed." });
   }
 
   try {
-    // 2. BULLETPROOF PARSING (Fixes the [object Object] crash)
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-    const deviceName = body.device ? body.device.trim() : "";
+    const inputDevice = body.device ? body.device.trim().toLowerCase() : "";
     const apiKey = process.env.GROQ_API_KEY;
 
-    if (!apiKey) {
-      throw new Error("API Key missing in Vercel Environment Variables.");
+    if (!apiKey) throw new Error("Vercel setup error: API Key missing.");
+
+    // 1. GIBBERISH FILTER
+    if (inputDevice.length < 2 || /^(.)\1+$/i.test(inputDevice)) {
+      return res.status(200).json({ text: "⚠️ ERROR: Invalid entry. Please specify a real device." });
     }
 
-    // 3. JAVASCRIPT GIBBERISH DETECTOR (Pre-filters before hitting AI)
-    // Blocks empty, single letters (like "L"), repeating letters (like "xxx"), or pure symbols
-    const isGibberish = 
-      deviceName.length < 2 || 
-      /^(.)\1+$/i.test(deviceName) || 
-      /^[^a-zA-Z0-9]+$/.test(deviceName);
-
-    if (isGibberish) {
-      return res.status(200).json({ 
-        text: "⚠️ PRO SEC ALERT: Invalid or Fake Device Detected. Please enter a real brand or model." 
-      });
+    // 2. HARD-CODED STRICT IPHONE VALIDATION
+    // Detects if it's an iPhone request and explicitly checks for valid production numbers
+    if (inputDevice.includes("iphone") || inputDevice.includes("apple")) {
+      // Extract any numbers from the string (e.g., "iphone 91" -> 91, "iphone 14 pro" -> 14)
+      const matches = inputDevice.match(/\d+/);
+      if (matches) {
+        const iphoneNum = parseInt(matches[0], 10);
+        // Valid historical iPhones are from 3 to 16. Anything higher (like 91) is blocked.
+        if (iphoneNum < 3 || iphoneNum > 16) {
+          return res.status(200).json({ text: "⚠️ ERROR: iPhone model does not exist. Enter a real device." });
+        }
+      } else {
+        // If they just write "iphone" without a number, allow it to fall back to generic brand rules
+      }
     }
 
-    // 4. ADVANCED AI ENGINE CONFIGURATION
-    const systemPrompt = `You are the "Tripsy Premium" Free Fire Configuration Engine. 
-Your core directive is to calculate highly accurate, mathematical Free Fire sensitivities.
+    // 3. BROAD BRAND REGISTRY CHECK
+    const validBrands = ["iphone", "apple", "realme", "poco", "xiaomi", "redmi", "samsung", "vivo", "oppo", "oneplus", "iqoo", "infinix", "tecno", "asus", "rog", "motorola", "moto", "pixel", "google"];
+    const hasValidBrand = validBrands.some(brand => inputDevice.includes(brand));
 
-DEVICE DETECTION PROTOCOL:
-- You MUST accept partial names (e.g., "Realme", "Poco"). Calculate based on the brand's average touch sampling rate.
-- You MUST accept future/unreleased models (e.g., "iPhone 17", "Realme 14x 5g"). Calculate based on the brand's flagship trajectory.
-- If a user types a totally fictional word that passed the basic filter (e.g., "BatmanPhone"), output EXACTLY: "⚠️ ERROR: Unrecognized Device Architecture."
+    if (!hasValidBrand) {
+      return res.status(200).json({ text: "⚠️ ERROR: Unrecognized phone model. Please provide a valid Android or iOS device name." });
+    }
 
-CALCULATION RULES (FREE FIRE OB40+ UPDATE):
-- All Scope sensitivities MUST be integers between 0 and 200. NO WORDS (No "On", "Off", "High").
-- Low-end/Budget Androids (e.g., old Redmi, Vivo, generic brands): Need HIGH sensitivity (150-200) and higher DPI (600+).
-- High-end/Gaming/iOS (e.g., iPhone, ROG, flagship Samsung): Need LOWER sensitivity (80-130) and lower DPI (400-500).
-- Fire Button Size is always between 35 and 65.
+    // 4. THE MASTER AI CONFIG ENGINE
+    const systemPrompt = `You are the final, high-accuracy Free Fire (FF) Sensitivity Engineering Engine.
+Your task is to analyze the requested phone model and return precise custom game settings based on real touch latency characteristics.
 
-OUTPUT FORMAT (STRICT ENFORCEMENT):
-Provide ONLY the following 8 lines. No introductions, no explanations.
+STRICT CONDITIONS:
+- All values MUST be unique numeric parameters from 0 to 200 based on device screen types.
+- Never output textual state words like "High", "Low", "On", or "Off".
+- Low-end or budget devices require higher general sensitivities (e.g., 170-195) to aid dragging physics.
+- Flagship premium devices require stabilized ranges (e.g., 90-140) paired with tighter DPI structures.
+
+OUTPUT TEMPLATE:
 1. General: [Value]
 2. Red Dot: [Value]
 3. 2x Scope: [Value]
@@ -51,9 +57,8 @@ Provide ONLY the following 8 lines. No introductions, no explanations.
 5. Sniper Scope: [Value]
 6. Free Look: [Value]
 7. DPI: [Value]
-8. Fire Button Size: [Value]`;
+8. Fire Button Size: [Value]%`;
 
-    // 5. FETCHING FROM GROQ API
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -62,26 +67,23 @@ Provide ONLY the following 8 lines. No introductions, no explanations.
       },
       body: JSON.stringify({
         model: "llama-3.3-70b-versatile",
-        temperature: 0.2, // Low temperature ensures mathematical consistency, less hallucination
+        temperature: 0.1, // Keeps mathematical results strict and eliminates creative hallucinations
         messages: [
             { role: "system", content: systemPrompt },
-            { role: "user", content: `Generate absolute best Free Fire settings for: ${deviceName}` }
+            { role: "user", content: `Provide accurate Free Fire execution metrics tailored for: ${body.device}` }
         ]
       })
     });
 
     const data = await response.json();
 
-    // 6. FINAL OUTPUT DELIVERY
     if (data.choices && data.choices.length > 0) {
-        let finalResponse = data.choices[0].message.content.trim();
-        res.status(200).json({ text: finalResponse });
+        res.status(200).json({ text: data.choices[0].message.content.trim() });
     } else {
-        res.status(200).json({ text: "⚠️ SYSTEM ERROR: AI Engine failed to compute. Check API status." });
+        res.status(200).json({ text: "⚠️ SERVICE ALERT: Unable to compute profile. Try again." });
     }
 
   } catch (e) {
-    // 7. CRASH PREVENTION
-    res.status(500).json({ text: "⚠️ FATAL ERROR: " + e.message });
+    res.status(500).json({ text: "⚠️ SYSTEM CRASH: " + e.message });
   }
 }
