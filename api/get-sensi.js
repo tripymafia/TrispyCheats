@@ -1,4 +1,5 @@
 export default async function handler(req, res) {
+  // Always return valid JSON
   res.setHeader('Content-Type', 'application/json');
 
   if (req.method !== 'POST') {
@@ -7,11 +8,10 @@ export default async function handler(req, res) {
 
   try {
     const { device } = JSON.parse(req.body);
-    // This now looks for the new variable name
-    const apiKey = process.env.GROQ_API_KEY; 
+    const apiKey = process.env.GROQ_API_KEY;
 
     if (!apiKey) {
-      return res.status(500).json({ text: "Error: GROQ_API_KEY is not set in Vercel." });
+      return res.status(500).json({ text: "Error: GROQ_API_KEY is missing." });
     }
 
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: "llama3-8b-8192",
         messages: [
-          { role: "system", content: "You are a professional gamer. Provide FF Max sensitivity (0-200) and a tip." },
+          { role: "system", content: "You are a gaming expert." },
           { role: "user", content: `Give the best Free Fire Max sensitivity (Scale 0-200) for: ${device}.` }
         ]
       })
@@ -31,12 +31,16 @@ export default async function handler(req, res) {
 
     const data = await response.json();
     
+    if (data.error) {
+        return res.status(500).json({ text: "Groq API Error: " + data.error.message });
+    }
+
     if (data.choices && data.choices[0]) {
         return res.status(200).json({ text: data.choices[0].message.content });
     } else {
-        return res.status(500).json({ text: "AI error: " + JSON.stringify(data) });
+        return res.status(500).json({ text: "Error: AI response empty." });
     }
   } catch (error) {
-    return res.status(500).json({ text: "Fetch error: " + error.message });
+    return res.status(500).json({ text: "Fetch Error: " + error.message });
   }
 }
